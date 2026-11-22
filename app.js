@@ -4,7 +4,7 @@
 const $=id=>document.getElementById(id);
 const normalize=value=>String(value??'').normalize('NFKC').toLowerCase().replace(/[\s\-_～〜・.,，、]/g,'');
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-let shopData, mapData, shops=[], days=[], floors=[], day='', floor='2', view='map', selected=null, records={}, pinTarget=null, zoom=1;
+let shopData, mapData, shops=[], days=[], floors=[], day='', floor='2', view='map', selected=null, records={}, pinTarget=null, zoom=1, focusShopId=null;
 let storeKey='';
 const currentRecord=shop=>records[shop.id]||(records[shop.id]={fav:false,memo:'',orders:{},visited:{},pin:null});
 const orderFor=shop=>Number(currentRecord(shop).orders?.[day]||0)||0;
@@ -28,15 +28,19 @@ const boothSpots=()=>floorMeta()?.hotspots||[];
 
 function findShop(id){return shops.find(s=>s.id===id)}
 function match(s){const q=normalize($('search').value);return !q||normalize([s.name,s.boothText,s.area,`${s.floor}階`, ...(s.booths||[]),currentRecord(s).memo].join(' ')).includes(q)}
-function listShops(){let base=shops.filter(s=>match(s));if(view==='fav')base=base.filter(s=>currentRecord(s).fav);else if(!$('search').value.trim())base=base.filter(s=>shopFloor(s)===floor);base.sort((a,b)=>{
-  const ar=orderFor(a)||Infinity, br=orderFor(b)||Infinity;
+function listShops(){
+ let base=shops.filter(s=>shopFloor(s)===floor&&match(s));
+ if(view==='fav')base=base.filter(s=>currentRecord(s).fav);
+ base.sort((a,b)=>{
+  const ar=orderFor(a)||Infinity,br=orderFor(b)||Infinity;
   if(view==='fav'&&ar!==br)return ar-br;
-  if(a.floor!==b.floor)return a.floor-b.floor;
   return a.name.localeCompare(b.name,'ja');
-});return base}
+ });
+ return base;
+}
 function changeView(next){view=next;document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===next));render()}
-function switchFloor(next){floor=String(next);pinTarget=null;zoom=1;render()}
-function switchDay(next){day=next;render()}
+function switchFloor(next){floor=String(next);pinTarget=null;focusShopId=null;zoom=1;render()}
+function switchDay(next){day=next;focusShopId=null;render()}
 function renderTabs(){
  $('dayTabs').innerHTML=days.map(d=>`<button data-day="${esc(d.id)}" class="${day===d.id?'on':''}">${esc(d.label)}</button>`).join('');
  $('floorTabs').innerHTML=floors.map(f=>`<button data-floor="${esc(f.id)}" class="${floor===f.id?'on':''}">${esc(f.label)}</button>`).join('');
@@ -44,15 +48,16 @@ function renderTabs(){
 function render(){
  renderTabs();
  const map=view==='map';
- $('mapPanel').classList.toggle('hidden',!map);$('listPanel').classList.toggle('hidden',map);
+ $('mapPanel').classList.toggle('hidden',!map);$('listPanel').classList.toggle('hidden',map);$('mapLegend').classList.toggle('hidden',!map);
  if(map){renderMap()}else{renderList()}
 }
 function renderList(){
- const list=listShops();$('resultsCount').textContent=`${list.length}店舗を表示（収録 ${shops.length}店舗）`;
+ const list=listShops();
+ $('resultsCount').textContent=`${days.find(d=>d.id===day)?.label||''}・${floor}階　該当 ${list.length}店舗（この階 ${shops.filter(s=>shopFloor(s)===floor).length}店舗）`;
  $('shopList').innerHTML=list.length?list.map(s=>{
-  const r=currentRecord(s),n=orderFor(s);
-  return `<button class="entry" data-shop-id="${esc(s.id)}"><span class="name"><span class="favmark">${r.fav?'★ ':''}</span>${esc(s.name)}<small>${s.floor}階・第${s.hall}会場／エリア${esc(s.area)}${visitedFor(s)?'　✓訪問済':''}</small></span>${n?`<span class="rank">${n}</span>`:''}<span class="booth">${esc(s.boothText)}</span></button>`;
- }).join(''):'<p class="hint">該当する店舗はまだ収録されていないよ。公式一覧も確認してね。</p>';
+  const r=currentRecord(s),n=orderFor(s),status=visitedFor(s)?' ・ ✓訪問済み':'';
+  return `<button class="entry" data-shop-id="${esc(s.id)}"><span class="entryMain">${n?`<span class="listBadge" aria-label="訪問順 ${n}">${n}</span>`:''}<span class="entryText"><b>${r.fav?'★ ':''}${esc(s.name)}</b><small>第${s.hall}会場・エリア${esc(s.area||'')}${status}</small></span></span><span class="code">${esc(s.floor)}F ${esc(s.boothText)}</span></button>`;
+ }).join(''):'<div class="nohits">該当するお店がないよ。日付・階を確認してね。</div>';
 }
 function applyZoom(){
  const meta=floorMeta(),scroll=$('mapScroll'),canvas=$('mapCanvas');
@@ -63,13 +68,7 @@ function applyZoom(){
  $('zoomPercent').textContent=`${Math.round(zoom*100)}%`;
  $('zoomOut').disabled=zoom<=0.65;$('zoomIn').disabled=zoom>=4;
 }
-function renderQuickResults(){
- const raw=$('search').value.trim(),out=$('quickResults');
- if(!raw){out.classList.add('hidden');out.innerHTML='';return}
- const matches=shops.filter(match).slice(0,12);
- out.classList.remove('hidden');
- out.innerHTML=matches.length?matches.map(s=>`<button data-quick-shop="${esc(s.id)}" title="${esc(s.name)}">${esc(s.name)}　${s.floor}F ${esc(s.boothText)}</button>`).join(''):'<span class="small muted">一致する店舗は未収録だよ</span>';
-}
+function renderQuickResults(){ /* 浅草版と同じシンプルな検索表示。候補のチップは出さない。 */ }
 function renderMap(){
  const m=floorMeta();if(!m)return;
  const img=$('floorImage');
@@ -80,14 +79,16 @@ function renderMap(){
    img.alt=`${m.label} 2026年東京ミネラルショー公式配置図`;
  }
  $('officialMap').href=m.officialPage;
+ $('resultsCount').textContent=`${days.find(d=>d.id===day)?.label||''}・${floor}階　登録 ${shops.filter(s=>shopFloor(s)===floor).length}店舗`;
  $('mapCanvas').classList.toggle('pinMode',!!pinTarget);
- $('mapHint').textContent=pinTarget?`📍 ${pinTarget.name} の「${pinTarget.boothText}」が印刷されている位置をタップしてね。`:'地図のブース番号をタップするとお店の詳細が開くよ。検索すると該当ブースが光るよ。';
+ $('mapHint').textContent=pinTarget?`📍 ${pinTarget.name} の「${pinTarget.boothText}」が印刷されている位置をタップしてね。`:focusShopId?`🟩 ${findShop(focusShopId)?.name||'選択した店舗'} の場所を緑で表示中。「消去」で解除できるよ。`:'地図のブース番号をタップするとお店の詳細が開くよ。検索すると該当ブースが光るよ。';
  applyZoom();renderHotspots();renderPins();renderQuickResults();
 }
 function renderHotspots(){
  const layer=$('hotspotLayer');
  if(!layer)return;
- const raw=$('search').value.trim(), q=!!raw;
+ const raw=$('search').value.trim(), q=!!raw||!!focusShopId;
+ const isHit=s=>focusShopId?s.id===focusShopId:match(s);
  const usedRank=new Set();
  const byCode=new Map();
  shops.filter(s=>shopFloor(s)===floor).forEach(s=>shopBooths(s).forEach(c=>{
@@ -97,14 +98,14 @@ function renderHotspots(){
  const html=boothSpots().map(h=>{
   const matches=byCode.get(normBooth(h.code))||[];
   if(matches.length)located++;
-  const shop=matches.find(s=>q&&match(s))||matches[0];
+  const shop=matches.find(s=>q&&isHit(s))||matches[0];
   const record=shop?currentRecord(shop):null;
   const hasManualPin=record?.pin?.floor===floor;
-  const hit=!!(q&&matches.some(s=>match(s))&&!hasManualPin);
-  const fav=!!(matches.some(s=>currentRecord(s).fav)&&!hasManualPin);
+  const hit=!!(q&&matches.some(isHit));
+  const fav=!!(matches.some(s=>currentRecord(s).fav));
   const visited=!!(matches.length&&matches.every(s=>visitedFor(s)));
   const orderShop=matches.find(s=>orderFor(s)&&!usedRank.has(s.id));
-  const n=orderShop&&!hasManualPin?orderFor(orderShop):0;
+  const n=orderShop?orderFor(orderShop):0;
   if(n)usedRank.add(orderShop.id);
   if(hit)highlighted++;
   const provisional=h.confidence==='provisional';
@@ -114,15 +115,21 @@ function renderHotspots(){
   return `<button type="button" class="${cls}" data-hotspot="${esc(h.code)}" aria-label="${esc(tip)}" title="${esc(tip)}" style="left:${(h.x*100).toFixed(3)}%;top:${(h.y*100).toFixed(3)}%;width:${(h.w*100).toFixed(3)}%;height:${(h.h*100).toFixed(3)}%">${badge}</button>`;
  }).join('');
  layer.innerHTML=html;
- $('hotspotStatus').textContent=`${floor}階：配置対応 ${boothSpots().length}区画（店舗データと一致 ${located}区画）${q?`／検索ヒット ${highlighted}区画`:''}。${floorMeta().mappingNotice||''}`;
+ $('hotspotStatus').textContent=`${floor}階：配置対応 ${boothSpots().length}区画（店舗データと一致 ${located}区画）${q?`／${focusShopId?'選択した店舗':'検索ヒット'} ${highlighted}区画`:''}。${floorMeta().mappingNotice||''}`;
 }
 
 function renderPins(){
- const q=!!$('search').value.trim();
- const pins=shops.filter(s=>shopFloor(s)===floor&&currentRecord(s).pin?.floor===floor);
+ const q=!!$('search').value.trim()||!!focusShopId;
+ const mappedCodes=new Set(boothSpots().map(h=>normBooth(h.code)));
+ const pins=shops.filter(s=>{
+  if(shopFloor(s)!==floor||currentRecord(s).pin?.floor!==floor)return false;
+  if(focusShopId&&s.id!==focusShopId)return false;
+  const booths=[...shopBooths(s)];
+  return booths.length===0||!booths.some(code=>mappedCodes.has(normBooth(code)));
+ });
  $('pinLayer').innerHTML=pins.map(s=>{
   const r=currentRecord(s), p=r.pin, n=orderFor(s);
-  const cls=['pin',r.fav?'favorite':'',r.visited?.[day]?'visited':'',q&&match(s)?'highlight':''].filter(Boolean).join(' ');
+  const cls=['pin',r.fav?'favorite':'',r.visited?.[day]?'visited':'',q&&(focusShopId?s.id===focusShopId:match(s))?'highlight':''].filter(Boolean).join(' ');
   return `<button class="${cls}" data-pin-shop="${esc(s.id)}" title="${esc(s.name)}：${esc(s.boothText)}" style="left:${Math.max(0,Math.min(100,p.x*100))}%;top:${Math.max(0,Math.min(100,p.y*100))}%">${n||'●'}</button>`;
  }).join('');
 }
@@ -156,10 +163,50 @@ function saveDetail(close=true){
  if(n)r.fav=true;
  save();if(close)closeShop();render();return true;
 }
+// 「位置を表示」はデータを変更せず、以前の検索ヒットを消して最後に選んだ1店だけ強調。
+function showShopOnMap(){
+ if(!selected)return;
+ const s=selected;
+ const shopCodes=shopBooths(s);
+ const meta=floors.find(f=>f.id===shopFloor(s));
+ const spots=(meta?.hotspots||[]).filter(h=>shopCodes.has(normBooth(h.code)));
+ const manual=currentRecord(s).pin?.floor===shopFloor(s)?currentRecord(s).pin:null;
+ if(!spots.length&&!manual){
+  $('formError').textContent='この店舗はまだ地図上の位置が未登録だよ。「手動で位置を指定」から登録してね。';
+  return;
+ }
+ // モーダル内で編集したメモ・訪問順は、従来と同じく移動前に保存。
+ if(!saveDetail(false))return;
+ $('search').value='';
+ focusShopId=s.id;
+ pinTarget=null;
+ floor=shopFloor(s);
+ zoom=Math.max(zoom,1.8);
+ closeShop();
+ changeView('map');
+ // 地図上の対象ブース（複数区画なら中央）へ寄せる。
+ const loc=spots.length?{
+  x:spots.reduce((sum,h)=>sum+h.x,0)/spots.length,
+  y:spots.reduce((sum,h)=>sum+h.y,0)/spots.length
+ }:manual;
+ const center=()=>{
+  if(focusShopId!==s.id)return;
+  const scroll=$('mapScroll');
+  scroll.scrollTo({
+   left:Math.max(0,scroll.scrollWidth*loc.x-scroll.clientWidth/2),
+   top:Math.max(0,scroll.scrollHeight*loc.y-scroll.clientHeight/2),
+   behavior:'smooth'
+  });
+ };
+ requestAnimationFrame(center);
+ if(!$('floorImage').complete)$('floorImage').addEventListener('load',center,{once:true});
+ message(`${s.name} の位置を緑色で表示したよ。`);
+}
 function beginPin(){
  if(!selected)return;
  if(!saveDetail(false))return;
- pinTarget=selected;floor=String(selected.floor);zoom=1;closeShop();changeView('map');
+ pinTarget=selected;focusShopId=null;$('search').value='';
+ floor=String(selected.floor);zoom=1;closeShop();changeView('map');
  $('mapScroll').scrollTo({left:0,top:0});message('地図のブース番号が印刷されている場所をタップしてね。');
 }
 function handleMapClick(e){
@@ -178,7 +225,7 @@ function handleMapClick(e){
  const rect=$('mapCanvas').getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width,y=(e.clientY-rect.top)/rect.height;
  if(x<0||x>1||y<0||y>1)return;
  const item=pinTarget;
- currentRecord(item).pin={floor:shopFloor(item),x,y};save();pinTarget=null;renderMap();message(`${item.name} の位置を記録したよ。`);
+ currentRecord(item).pin={floor:shopFloor(item),x,y};save();pinTarget=null;focusShopId=item.id;renderMap();message(`${item.name} の位置を記録したよ。`);
 }
 async function exportRecords(){
  const json=JSON.stringify({format:'mineral-show-memory',version:1,eventId:shopData.eventId,exportedAt:new Date().toISOString(),records},null,2);
@@ -211,14 +258,23 @@ async function start(){
   document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>changeView(b.dataset.view));
   $('dayTabs').onclick=e=>{const b=e.target.closest('[data-day]');if(b)switchDay(b.dataset.day)};
   $('floorTabs').onclick=e=>{const b=e.target.closest('[data-floor]');if(b)switchFloor(b.dataset.floor)};
-  $('search').oninput=()=>{if(view==='map'){renderHotspots();renderPins();renderQuickResults()}else renderList()};
-  $('quickResults').onclick=e=>{const b=e.target.closest('[data-quick-shop]');if(b){const s=findShop(b.dataset.quickShop);if(s){if(shopFloor(s)!==floor){floor=shopFloor(s);zoom=1;render()}openShop(s)}}};
-  $('clear').onclick=()=>{$('search').value='';render()};
+  $('search').oninput=()=>{
+   focusShopId=null;
+   const q=$('search').value.trim();
+   if(q){
+    const hits=shops.filter(match);
+    const floorsHit=[...new Set(hits.map(s=>shopFloor(s)))];
+    if(hits.length&&!floorsHit.includes(floor)&&floorsHit.length===1){floor=floorsHit[0];zoom=1;}
+   }
+   render();
+  };
+  $('clear').onclick=()=>{$('search').value='';focusShopId=null;render()};
   $('shopList').onclick=e=>{const b=e.target.closest('[data-shop-id]');if(b)openShop(findShop(b.dataset.shopId))};
   $('mapCanvas').onclick=handleMapClick;
-  $('favBtn').onclick=()=>{if(!selected)return;const r=currentRecord(selected);r.fav=!r.fav;if(!r.fav)r.orders={};save();refreshActions();renderHotspots();renderPins()};
-  $('visitedBtn').onclick=()=>{if(!selected)return;const r=currentRecord(selected);r.visited||={};r.visited[day]=!r.visited[day];save();refreshActions();renderHotspots();renderPins()};
+  $('favBtn').onclick=()=>{if(!selected)return;const r=currentRecord(selected);r.fav=!r.fav;if(!r.fav)r.orders={};save();refreshActions();render()};
+  $('visitedBtn').onclick=()=>{if(!selected)return;const r=currentRecord(selected);r.visited||={};r.visited[day]=!r.visited[day];save();refreshActions();render()};
   $('saveBtn').onclick=()=>saveDetail(true);
+  $('showOnMapBtn').onclick=showShopOnMap;
   $('setPinBtn').onclick=beginPin;
   $('removePinBtn').onclick=()=>{if(!selected)return;currentRecord(selected).pin=null;save();refreshActions();renderPins();message('位置の印を解除したよ。')};
   $('closeBtn').onclick=closeShop;$('cancelBtn').onclick=closeShop;$('modal').onclick=e=>{if(e.target===$('modal'))closeShop()};
@@ -226,6 +282,7 @@ async function start(){
   $('zoomIn').onclick=()=>{zoom=Math.min(4,Math.round((zoom+.25)*100)/100);applyZoom()};
   $('zoomOut').onclick=()=>{zoom=Math.max(.65,Math.round((zoom-.25)*100)/100);applyZoom()};
   $('zoomFit').onclick=()=>{zoom=1;$('mapScroll').scrollTo({left:0,top:0});applyZoom()};
+  $('zoomReset').onclick=()=>{zoom=1;$('mapScroll').scrollTo({left:0,top:0});applyZoom()};
   // 2本指ピンチ拡大・縮小。クリック/タップでの位置指定とは干渉しないようにする。
   let pinch=null;
   $('mapScroll').addEventListener('touchstart',e=>{if(e.touches.length===2)pinch={dist:Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY),zoom};else pinch=null},{passive:true});

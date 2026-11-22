@@ -1,39 +1,92 @@
 <!doctype html>
-<html lang="ja"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1e5960">
-<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="池袋ショーマップ">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="池袋ショーマップ">
 <title>池袋ショー マイマップ</title>
-<link rel="stylesheet" href="./styles.css?v=03">
-</head><body>
-<header><h1>💎 池袋ショー マイマップ</h1></header>
+<link rel="stylesheet" href="./styles.css?v=06">
+</head>
+<body>
+<header class="compactHeader"><h1>💎 池袋ショー マイマップ</h1></header>
 <main>
-  <nav id="dayTabs" class="choiceRow days" aria-label="訪問日"></nav>
-  <nav id="floorTabs" class="choiceRow floors" aria-label="フロア"></nav>
-  <div class="searchRow"><input id="search" type="search" placeholder="店舗名・ブース番号で検索" aria-label="店舗名・ブース番号で検索"><button id="clear" type="button">消去</button></div>
-  <nav class="choiceRow modes" aria-label="画面"><button data-view="map" class="on">地図</button><button data-view="fav">お気に入り</button><button data-view="list">店舗一覧</button></nav>
-  <div id="mapPanel">
-    <div id="quickResults" class="quickResults hidden" aria-label="検索候補"></div>
-    <div class="zoomBar"><button id="zoomOut" aria-label="縮小">−</button><span id="zoomPercent">100%</span><button id="zoomIn" aria-label="拡大">＋</button><button id="zoomFit">全体</button></div>
-    <div id="mapScroll" class="mapScroll"><div id="mapCanvas" class="mapCanvas"><img id="floorImage" alt="公式フロアマップ"><div id="hotspotLayer"></div><div id="pinLayer"></div></div></div>
-    <p id="mapHint" class="hint">ブース番号をタップするとお店を開けるよ。検索したお店は地図上で光るよ。</p><p id="hotspotStatus" class="hint small"></p><p id="coverageBanner" class="hint">初版は先行収録版だよ。すべてのお店はまだ登録されていないよ。</p>
-    <a id="officialMap" target="_blank" rel="noopener">公式フロアマップを開く</a>
-  </div>
-  <section id="listPanel" class="hidden"><div id="resultsCount" class="small muted"></div><div id="shopList" class="shopList"></div></section>
-  <details class="subtleBox"><summary>凡例・使い方</summary><p><span class="dot green"></span> 明るい緑：検索一致　<span class="dot orange"></span> オレンジ枠：お気に入り　<span class="dot teal"></span> 手動の位置ピン</p><p>地図の番号をタップしてお店を開けるよ。2階の13〜97番は正確な位置をまだ確認できていないため、誤った場所を光らせないよう番号タップの対象外にしてあるよ。位置が違う場合はお店の詳細から「この店の位置を指定」で自分用のピンを付けてね。</p></details>
-  <details class="subtleBox"><summary>記録のバックアップ・復元</summary><p>お気に入り・訪問順・メモ・訪問済み・位置ピンは、各自のSafari内に保存されるよ。公開GitHubに個人用バックアップをアップしないでね。</p><div class="actions"><button id="exportBtn">記録をバックアップ</button><button id="importBtn">記録を読み込む</button><input id="importFile" type="file" accept=".json,application/json" hidden></div><p id="backupMsg" class="small muted"></p></details>
-  <details class="subtleBox"><summary>開催情報・データの状態</summary><p><strong>第35回 東京ミネラルショー</strong><br>2026年12月11日（金）〜14日（月）<br>サンシャインシティ文化会館 2・3・4階</p><p id="dataStatus"></p><p>出展者データは現在の shops.json を表示するよ。自動更新後に店舗数が増えていれば、地図上の番号への店舗対応も自動で更新されるよ。会期中の個別の出展日は未確認です。</p><p><a href="https://www.tokyomineralshow.com/exhibitor/" target="_blank" rel="noopener">公式出展者一覧</a> ／ <a href="https://www.tokyomineralshow.com/floormap/" target="_blank" rel="noopener">公式フロアマップ</a></p></details>
+  <section class="mapControls" aria-label="マップ操作">
+    <nav id="dayTabs" class="choices days" aria-label="開催日"></nav>
+    <nav id="floorTabs" class="choices floors" aria-label="階"></nav>
+    <div class="searchrow"><input id="search" type="search" aria-label="店舗名・ブース番号で検索" placeholder="店舗名・ブース番号で検索"><button id="clear" type="button">クリア</button></div>
+    <nav class="choices tabs" aria-label="画面の切り替え">
+      <button type="button" data-view="map" class="on">地図</button>
+      <button type="button" data-view="fav">お気に入り</button>
+      <button type="button" data-view="list">店舗一覧</button>
+    </nav>
+  </section>
+  <section id="mapPanel">
+    <div class="zoomToolbar" role="group" aria-label="地図の拡大縮小">
+      <button id="zoomOut" type="button" aria-label="縮小">−</button>
+      <span id="zoomPercent" class="zoomPercent" aria-live="polite">100%</span>
+      <button id="zoomIn" type="button" aria-label="拡大">＋</button>
+      <button id="zoomReset" type="button">戻す</button>
+      <button id="zoomFit" type="button">全体</button>
+    </div>
+    <div id="mapScroll" class="mapScroll"><div id="mapCanvas" class="mapCanvas"><img id="floorImage" alt="池袋ショー公式配置図"><div id="hotspotLayer"></div><div id="pinLayer"></div></div></div>
+    <p id="mapHint" class="hint">ブースを押すと詳細を表示するよ。</p>
+  </section>
+  <section id="listPanel" class="hidden"><div id="shopList" class="entries"></div></section>
+  <details class="mapLegend" id="mapLegend">
+    <summary>色の凡例を表示</summary>
+    <div class="legendContents">
+      <div class="legendTitle">マイマップの表示</div>
+      <div class="legendItems">
+        <span><i class="swatch swatchHit"></i>検索・位置表示</span>
+        <span><i class="swatch swatchFav"></i>お気に入り</span>
+        <span><i class="swatch swatchOrder"></i>訪問順の数字</span>
+        <span><i class="swatch swatchPin"></i>手動の位置ピン</span>
+      </div>
+    </div>
+  </details>
+  <div class="stats" id="resultsCount" aria-live="polite"></div>
+  <details class="backupSection" aria-label="個人記録のバックアップ">
+    <summary>💾 記録のバックアップ・復元</summary>
+    <div class="detailContent">
+      <p>お気に入り・訪問順・メモ・訪問済みは、この端末に保存されるよ。個人用のバックアップファイルは公開GitHubには置かないでね。</p>
+      <div class="backupActions"><button id="exportBtn" type="button">記録をバックアップ</button><button id="importBtn" type="button">記録を読み込む</button><input id="importFile" type="file" accept=".json,application/json" hidden></div>
+      <p id="backupMsg" class="small muted"></p>
+    </div>
+  </details>
+  <details class="eventInfo">
+    <summary>開催情報・補足・公式リンク</summary>
+    <div class="detailContent">
+      <p>第35回 東京ミネラルショー　2026年12月11日（金）〜14日（月）</p>
+      <p>サンシャインシティ文化会館 2・3・4階</p>
+      <p id="coverageBanner" class="infoNote">出展者データを読み込んでいるよ。</p>
+      <p id="hotspotStatus" class="infoNote"></p>
+      <p id="dataStatus" class="small muted"></p>
+      <p>2階の13〜97番はまだ位置対応が未確認なので、地図上での色付けとタップは一部未対応だよ。</p>
+      <p><a id="officialMap" target="_blank" rel="noopener">表示中の階の公式フロアマップ</a></p>
+      <p><a href="https://www.tokyomineralshow.com/exhibitor/" target="_blank" rel="noopener">公式出展者一覧</a> ／ <a href="https://www.tokyomineralshow.com/floormap/" target="_blank" rel="noopener">公式フロアマップ一覧</a></p>
+    </div>
+  </details>
 </main>
-<div id="modal" class="modal hidden" role="presentation"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shopName">
-  <div class="sheetHead"><h2 id="shopName"></h2><button id="closeBtn" class="closeBtn" aria-label="閉じる">×</button></div>
-  <div id="shopLocation" class="location"></div><div id="visitDays" class="muted small"></div>
-  <label for="orderInput">訪問順（選択している日の順番）</label><input id="orderInput" type="number" min="1" max="999" step="1" inputmode="numeric" placeholder="例：3">
-  <label for="memoInput">自分用メモ</label><textarea id="memoInput" placeholder="気になる石、予算など"></textarea>
-  <div class="actions"><button id="favBtn">☆ お気に入り</button><button id="visitedBtn">□ 訪問前</button></div>
-  <div class="actions"><button id="setPinBtn">📍 この店の位置を指定</button><button id="removePinBtn">印を消す</button></div>
-  <div id="formError" class="error" role="alert"></div>
-  <div class="actions"><button id="cancelBtn">閉じる</button><button id="saveBtn" class="primary">記録を保存</button></div>
-</div></div>
+<div id="modal" class="modal hidden">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shopName">
+    <div class="sheethead"><h2 id="shopName"></h2><button id="closeBtn" class="x" type="button" aria-label="閉じる">×</button></div>
+    <div id="shopLocation" class="place"></div>
+    <div id="visitDays" class="extra"></div>
+    <div class="visitOrderBox">
+      <label for="orderInput">🔢 訪問順（1〜999）</label>
+      <div class="visitOrderLine"><input id="orderInput" type="number" min="1" max="999" step="1" inputmode="numeric" placeholder="例：1"><p>数字を保存すると、自動でお気に入りにも登録するよ。</p></div>
+    </div>
+    <label for="memoInput">✎ 自分用メモ</label><textarea id="memoInput" placeholder="気になる石、予算、石友さんへのご挨拶など"></textarea>
+    <div class="actions"><button id="favBtn" type="button">☆ お気に入り</button><button id="visitedBtn" type="button">□ 訪問前</button></div>
+    <div class="actions"><button id="showOnMapBtn" class="primary" type="button">この店舗の位置を表示</button></div>
+    <div class="actions"><button id="setPinBtn" type="button">手動で位置を指定</button><button id="removePinBtn" type="button">印を消す</button></div>
+    <p id="formError" class="visitError" role="alert"></p>
+    <div class="actions"><button id="cancelBtn" type="button">閉じる</button><button id="saveBtn" type="button" class="primary">順番・メモを保存</button></div>
+  </div>
+</div>
 <div id="toast" class="toast hidden" role="status"></div>
-<script src="./app.js?v=03" defer></script>
-</body></html>
+<script src="./app.js?v=06" defer></script>
+</body>
+</html>
