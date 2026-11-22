@@ -13,6 +13,19 @@ function save(){try{localStorage.setItem(storeKey,JSON.stringify(records))}catch
 function message(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(message.timer);message.timer=setTimeout(()=>t.classList.add('hidden'),3800)}
 function floorMeta(){return floors.find(f=>f.id===floor)}
 function shopFloor(shop){return String(shop.floor)}
+const normBooth=code=>String(code??'').normalize('NFKC').toUpperCase().replace(/[\sー－‐–-]/g,'');
+function shopBooths(shop){
+  const result=new Set((shop.booths||[]).map(normBooth));
+  // Exhibition list can identify joint spaces as A・B15, corresponding to A15/B15.
+  for(const b of [...result]){
+    const m=b.match(/^([A-Z])(?:･|・|\.|\/)([A-Z])(\d+)$/);
+    if(m){result.add(m[1]+m[3]);result.add(m[2]+m[3]);}
+  }
+  return result;
+}
+const shopsAt=(code,locFloor)=>shops.filter(s=>shopFloor(s)===locFloor&&shopBooths(s).has(normBooth(code)));
+const boothSpots=()=>floorMeta()?.hotspots||[];
+
 function findShop(id){return shops.find(s=>s.id===id)}
 function match(s){const q=normalize($('search').value);return !q||normalize([s.name,s.boothText,s.area,`${s.floor}階`, ...(s.booths||[]),currentRecord(s).memo].join(' ')).includes(q)}
 function listShops(){let base=shops.filter(s=>match(s));if(view==='fav')base=base.filter(s=>currentRecord(s).fav);else if(!$('search').value.trim())base=base.filter(s=>shopFloor(s)===floor);base.sort((a,b)=>{
@@ -68,9 +81,42 @@ function renderMap(){
  }
  $('officialMap').href=m.officialPage;
  $('mapCanvas').classList.toggle('pinMode',!!pinTarget);
- $('mapHint').textContent=pinTarget?`📍 ${pinTarget.name} の「${pinTarget.boothText}」が印刷されている位置をタップしてね。`:'公式配置図でブース位置を確認できるよ。お気に入りのお店には、位置ピンを付けることもできるよ。';
- applyZoom();renderPins();renderQuickResults();
+ $('mapHint').textContent=pinTarget?`📍 ${pinTarget.name} の「${pinTarget.boothText}」が印刷されている位置をタップしてね。`:'地図のブース番号をタップするとお店の詳細が開くよ。検索すると該当ブースが光るよ。';
+ applyZoom();renderHotspots();renderPins();renderQuickResults();
 }
+function renderHotspots(){
+ const layer=$('hotspotLayer');
+ if(!layer)return;
+ const raw=$('search').value.trim(), q=!!raw;
+ const usedRank=new Set();
+ const byCode=new Map();
+ shops.filter(s=>shopFloor(s)===floor).forEach(s=>shopBooths(s).forEach(c=>{
+  const key=normBooth(c),arr=byCode.get(key)||[];arr.push(s);byCode.set(key,arr);
+ }));
+ let highlighted=0, located=0;
+ const html=boothSpots().map(h=>{
+  const matches=byCode.get(normBooth(h.code))||[];
+  if(matches.length)located++;
+  const shop=matches.find(s=>q&&match(s))||matches[0];
+  const record=shop?currentRecord(shop):null;
+  const hasManualPin=record?.pin?.floor===floor;
+  const hit=!!(q&&matches.some(s=>match(s))&&!hasManualPin);
+  const fav=!!(matches.some(s=>currentRecord(s).fav)&&!hasManualPin);
+  const visited=!!(matches.length&&matches.every(s=>visitedFor(s)));
+  const orderShop=matches.find(s=>orderFor(s)&&!usedRank.has(s.id));
+  const n=orderShop&&!hasManualPin?orderFor(orderShop):0;
+  if(n)usedRank.add(orderShop.id);
+  if(hit)highlighted++;
+  const provisional=h.confidence==='provisional';
+  const cls=['hotspot',hit?'hotspotHit':'',fav?'hotspotFav':'',visited?'hotspotVisited':'',provisional?'hotspotProvisional':''].filter(Boolean).join(' ');
+  const tip=`${h.code}${matches.length?' '+matches.map(s=>s.name).join('・'):'（店舗情報なし）'}${provisional?' ※位置の対応は暫定':''}`;
+  const badge=n?`<span class="hotspotRank">${n}</span>`:'';
+  return `<button type="button" class="${cls}" data-hotspot="${esc(h.code)}" aria-label="${esc(tip)}" title="${esc(tip)}" style="left:${(h.x*100).toFixed(3)}%;top:${(h.y*100).toFixed(3)}%;width:${(h.w*100).toFixed(3)}%;height:${(h.h*100).toFixed(3)}%">${badge}</button>`;
+ }).join('');
+ layer.innerHTML=html;
+ $('hotspotStatus').textContent=`${floor}階：配置対応 ${boothSpots().length}区画（店舗データと一致 ${located}区画）${q?`／検索ヒット ${highlighted}区画`:''}。${floorMeta().mappingNotice||''}`;
+}
+
 function renderPins(){
  const q=!!$('search').value.trim();
  const pins=shops.filter(s=>shopFloor(s)===floor&&currentRecord(s).pin?.floor===floor);
@@ -117,6 +163,15 @@ function beginPin(){
  $('mapScroll').scrollTo({left:0,top:0});message('地図のブース番号が印刷されている場所をタップしてね。');
 }
 function handleMapClick(e){
+ if(!pinTarget){
+  const booth=e.target.closest('[data-hotspot]');
+  if(booth){
+   const sellers=shopsAt(booth.dataset.hotspot,floor);
+   if(sellers.length===1){openShop(sellers[0]);return}
+   if(sellers.length>1){openShop(sellers[0]);message(`同じ区画に${sellers.length}店舗の登録があるよ。`);return}
+   message(`${booth.dataset.hotspot} の店舗データはまだ登録されていないよ。`);return;
+  }
+ }
  const pinButton=e.target.closest('[data-pin-shop]');
  if(pinButton){openShop(findShop(pinButton.dataset.pinShop));return}
  if(!pinTarget)return;
@@ -156,13 +211,13 @@ async function start(){
   document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>changeView(b.dataset.view));
   $('dayTabs').onclick=e=>{const b=e.target.closest('[data-day]');if(b)switchDay(b.dataset.day)};
   $('floorTabs').onclick=e=>{const b=e.target.closest('[data-floor]');if(b)switchFloor(b.dataset.floor)};
-  $('search').oninput=()=>{if(view==='map'){renderPins();renderQuickResults()}else renderList()};
-  $('quickResults').onclick=e=>{const b=e.target.closest('[data-quick-shop]');if(b)openShop(findShop(b.dataset.quickShop))};
+  $('search').oninput=()=>{if(view==='map'){renderHotspots();renderPins();renderQuickResults()}else renderList()};
+  $('quickResults').onclick=e=>{const b=e.target.closest('[data-quick-shop]');if(b){const s=findShop(b.dataset.quickShop);if(s){if(shopFloor(s)!==floor){floor=shopFloor(s);zoom=1;render()}openShop(s)}}};
   $('clear').onclick=()=>{$('search').value='';render()};
   $('shopList').onclick=e=>{const b=e.target.closest('[data-shop-id]');if(b)openShop(findShop(b.dataset.shopId))};
   $('mapCanvas').onclick=handleMapClick;
-  $('favBtn').onclick=()=>{if(!selected)return;const r=currentRecord(selected);r.fav=!r.fav;if(!r.fav)r.orders={};save();refreshActions();renderPins()};
-  $('visitedBtn').onclick=()=>{if(!selected)return;const r=currentRecord(selected);r.visited||={};r.visited[day]=!r.visited[day];save();refreshActions();renderPins()};
+  $('favBtn').onclick=()=>{if(!selected)return;const r=currentRecord(selected);r.fav=!r.fav;if(!r.fav)r.orders={};save();refreshActions();renderHotspots();renderPins()};
+  $('visitedBtn').onclick=()=>{if(!selected)return;const r=currentRecord(selected);r.visited||={};r.visited[day]=!r.visited[day];save();refreshActions();renderHotspots();renderPins()};
   $('saveBtn').onclick=()=>saveDetail(true);
   $('setPinBtn').onclick=beginPin;
   $('removePinBtn').onclick=()=>{if(!selected)return;currentRecord(selected).pin=null;save();refreshActions();renderPins();message('位置の印を解除したよ。')};
