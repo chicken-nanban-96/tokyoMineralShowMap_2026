@@ -1,42 +1,61 @@
-# 池袋ショー マイマップ 2026 初版
+# 池袋ショー・マイマップ 2026
 
-対象：第35回東京ミネラルショー（2026年12月11日〜14日、サンシャインシティ文化会館2・3・4階）。
+第35回東京ミネラルショー（2026年12月11〜14日、池袋サンシャインシティ文化会館2・3・4階）向け、個人用の巡回管理マップ。
 
-## GitHub Pages で公開
+## 現時点の完成度
 
-1. 浅草版とは**別のリポジトリ**を作る。
-2. `index.html`、`app.js`、`styles.css`、`shops.json`、`map.json` を**同じ階層（リポジトリ直下）**にアップロードする。
-3. Settings → Pages → Deploy from a branch → `main` / `(root)` を保存する。
-4. ページのURLをSafariで開く。初回読み込みには通信が必要。ホーム画面に追加する場合、Safariとは記録の保存領域が別になることがあるので、バックアップと復元を利用する。
+- Web画面：日付・フロア選択、公式会場図、店舗検索、お気に入り、訪問順、メモ、訪問済、位置ピン、記録のバックアップが動く初版。
+- `shops.json`：**現状は191店舗の先行収録**。公式全件更新は `scripts/update_shops.py` によりGitHub上で実行する必要があります。
+- 地図：公式の配置図画像を表示。全ブースの自動位置指定・番号タップは**未完成**。
 
-**注意：初期の `shops.json` は191店舗の先行収録版です。全出展者一覧を取り込めているわけではありません。** 店舗名・会場・エリア・ブース番号は2026年11月17日現在の主催者公開情報から先行入力。正確な最新情報は公式サイトを確認してください。
+## GitHub Pagesでの使い方
 
-## ファイルの役割
+`index.html` / `app.js` / `styles.css` / `shops.json` / `map.json` をリポジトリのルートに置きます。GitHub Pagesは `main` の `/(root)` から公開してください。
 
-- `index.html`：画面の外枠。
-- `styles.css`：デザイン。
-- `app.js`：検索・お気に入り・日別訪問順・メモ・訪問済・個人用位置ピン・バックアップ・ズーム。
-- `shops.json`：出展者一覧。今後は更新スクリプトで置き換え可能。
-- `map.json`：開催フロア・2026年公式マップの画像URL・画像サイズ。
-- `scripts/update_shops.py`：**公式サイトの全10ページから店舗データを抽出するスクリプト**。通常はPCやGitHub Actionsで実行。
-- `.github/workflows/update-shops.yml`：GitHubで手動実行する出展者更新ワークフロー。必須ではない。
+## ★公式出展者の全件取り込み（iPhoneから）
 
-## 全出展者に更新するには
+現在のサイトに5ファイルをアップ済みなら、**追加するのは次の2ファイルだけ**。
 
-方法A（PCなどから）：`pip install requests beautifulsoup4` → `python scripts/update_shops.py` → 生成された `shops.json` を上書き。
+1. `scripts/update_shops.py`（Pythonプログラム）
+2. `.github/workflows/update-shops.yml`（GitHub Actions設定）
 
-方法B（GitHub Actions）：上記 `.github/workflows/update-shops.yml` と `scripts/update_shops.py` を同じフォルダ構成でリポジトリに登録 → GitHubの Actions タブで「2026東京ミネラルショー 出展者一覧の更新」→ Run workflow。`contents: write` 権限が許可されている必要があります。
+どちらも **ファイル名だけでなく、フォルダの階層が重要**です。完成したリポジトリでは次の配置になります。
 
-公式サイトのHTML構造が変わると更新が失敗する可能性があります。その場合、元の `shops.json` は保持されます。**この環境では外部URLをプログラムで直接ダウンロードできないため、更新スクリプト自体を公式サイトに接続して実行する検証は未実施**です。
+```
+index.html
+app.js
+styles.css
+shops.json
+map.json
+scripts/
+  update_shops.py
+.github/
+  workflows/
+    update-shops.yml
+```
 
-## 地図について
+GitHubブラウザ画面の **Add file → Create new file** から `scripts/update_shops.py` のようにスラッシュ込みで名前を入力すると、必要なフォルダが作成できます。内容はこのZIP内のファイルからコピーできます。iPhoneで長いコードをコピーしづらい場合はPCからフォルダごとアップロードする方が簡単です。
 
-初版の地図は、2026年公式のフロアマップ画像を外部URLから表示しています。古い年の図や架空の配置は使っていません。現在はブースごとのタップ位置をすべて割り当てていないため、店の詳細から「この店の位置を指定」を押し、公式図内の目的ブースをタップして個人用位置ピンを付けます。ピン、訪問順などは同じブラウザのローカルストレージに保持。
+**先にPythonファイル、次にワークフローファイル**を追加してください。後者をコミットすると、`push` イベントで自動実行される設定です（GitHub Actionsが有効な場合）。
 
-第1会場は **2階**、第2会場は **3階**、第3会場は **4階**。主催者の一覧の「会場 1/2/3」を階数と取り違えないように注意。
+GitHubの **Actions → 「池袋ショー 出展者一覧を公式サイトから更新」** で実行結果を確認できます。自動で動かなければ **Run workflow** を押して手動実行してください。
 
-公式： https://www.tokyomineralshow.com/ ｜ 出展者一覧： https://www.tokyomineralshow.com/exhibitor/ ｜ 配置図： https://www.tokyomineralshow.com/floormap/
+**成功した場合：** 公式の国内8区分・海外2区分の10ページから `shops.json` を作成し、GitHub上のファイルを自動更新します。公開マップを再読み込みすると、収録件数が191件から増えているはずです。
 
-## 個人データ
+**失敗した場合：** 既存の `shops.json` はそのまま残ります。Actionsの赤い実行履歴からエラーログを確認してください。公式サイト側の接続制限やHTML変更が原因の可能性があります。
 
-`memory-ikebukuro-tokyo-mineral-show-2026.json` は非公開で保管。**Public GitHubリポジトリへアップロードしないでください。** 記録はイベントID単位に分離され、浅草マップの記録とは混ざりません。
+> 注：こちらの実行環境では公式サイトへのスクリプトからの実接続ができないため、**公式全件の取得成功は現時点では未確認**です。HTMLの解析と既存店舗IDの互換性は模擬データでテスト済みです。
+
+## 記録の引き継ぎ
+
+店舗IDは従来どおり「店舗名＋会場番号」を基に決定します。既存191店舗のIDがすべて一致することを確認済みです。ただし公式サイトで店舗名自体が変更された場合は、別のお店として扱われる可能性があります。
+
+お気に入り・メモなどの個人データはiPhoneのWebアプリ内の `localStorage` に保存され、GitHubの公開リポジトリには書き込まれません。念のため、店舗データ更新前に**記録をバックアップ**してください。
+
+## 公式情報
+
+- 出展者一覧：https://www.tokyomineralshow.com/exhibitor/
+- フロアマップ：https://www.tokyomineralshow.com/floormap/
+- 開催概要：https://www.tokyomineralshow.com/outline/
+
+公式の掲載内容は変更される場合があります。マップは非公式・個人制作です。
