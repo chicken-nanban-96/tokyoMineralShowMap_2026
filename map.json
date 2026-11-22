@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 2,
+  "eventId": "ikebukuro-tokyo-mineral-show-2026",
+  "venue": "池袋サンシャインシティ 文化会館",
+  "notes": "2026年公式フロアマップを表示。位置ピンは各自で配置できる試作版です。",
+  "floors": [
+    {
+      "id": "2", "label": "2階・第1会場", "hall": 1,
+      "image": "https://i0.wp.com/www.tokyomineralshow.com/wp-content/uploads/2026/11/2026_2f.jpg?resize=1053%2C1905&ssl=1",
+      "officialPage": "https://www.tokyomineralshow.com/floormap/floormap-2/",
+      "imageSize": [553, 1000], "regions": ["L","C","R"]
+    },
+    {
+      "id": "3", "label": "3階・第2会場", "hall": 2,
+      "image": "https://i0.wp.com/www.tokyomineralshow.com/wp-content/uploads/2026/11/2026_3f.jpg?resize=1053%2C1905&ssl=1",
+      "officialPage": "https://www.tokyomineralshow.com/floormap/floormap-3/",
+      "imageSize": [553, 1000], "regions": ["L","R"]
+    },
+    {
+      "id": "4", "label": "4階・第3会場", "hall": 3,
+      "image": "https://i0.wp.com/www.tokyomineralshow.com/wp-content/uploads/2026/11/2026_4f.jpg?resize=1170%2C1406&ssl=1",
+      "officialPage": "https://www.tokyomineralshow.com/floormap/floormap-4/",
+      "imageSize": [832, 1000], "regions": ["L","R"]
+    }
+  ]
+}

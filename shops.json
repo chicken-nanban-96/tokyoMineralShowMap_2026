@@ -1,0 +1,2228 @@
+{
+  "schemaVersion": 2,
+  "eventId": "ikebukuro-tokyo-mineral-show-2026",
+  "title": "池袋ショー マイマップ",
+  "subtitle": "第35回 東京ミネラルショー 2026",
+  "dates": [
+    {
+      "id": "2026-12-11",
+      "label": "12/11（金）"
+    },
+    {
+      "id": "2026-12-12",
+      "label": "12/12（土）"
+    },
+    {
+      "id": "2026-12-13",
+      "label": "12/13（日）"
+    },
+    {
+      "id": "2026-12-14",
+      "label": "12/14（月）"
+    }
+  ],
+  "coverage": "partial",
+  "coverageNote": "公式出展者一覧の一部を先行収録。全件データへの更新は scripts/update_shops.py を使用。",
+  "source": "https://www.tokyomineralshow.com/exhibitor/",
+  "shops": [
+    {
+      "id": "s-ca0377075de7",
+      "name": "arth",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "69,70",
+      "booths": [
+        "69",
+        "70"
+      ]
+    },
+    {
+      "id": "s-e5175eb9eb88",
+      "name": "EARTH BRIDGE",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "499,500",
+      "booths": [
+        "499",
+        "500"
+      ]
+    },
+    {
+      "id": "s-f88e35b7e3d3",
+      "name": "アースラブ・ワークス",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "39",
+      "booths": [
+        "39"
+      ]
+    },
+    {
+      "id": "s-deccb6eba7d4",
+      "name": "㈱アーツデザイン/hachibar",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "399,400",
+      "booths": [
+        "399",
+        "400"
+      ]
+    },
+    {
+      "id": "s-09b12a18a716",
+      "name": "Art Crystal Tokyo",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "170～173",
+      "booths": [
+        "170",
+        "171",
+        "172",
+        "173"
+      ]
+    },
+    {
+      "id": "s-2615b554bd88",
+      "name": "㈱R&L ネパール",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "B27",
+      "booths": [
+        "B27"
+      ]
+    },
+    {
+      "id": "s-9544d94c0c34",
+      "name": "㈱アール.エス.ジャパン",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "166～168",
+      "booths": [
+        "166",
+        "167",
+        "168"
+      ]
+    },
+    {
+      "id": "s-a8dbdc835d38",
+      "name": "あーる企画",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "379,380",
+      "booths": [
+        "379",
+        "380"
+      ]
+    },
+    {
+      "id": "s-6a60dbbe5dbf",
+      "name": "㈱R.T.Diamonds",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "A33",
+      "booths": [
+        "A33"
+      ]
+    },
+    {
+      "id": "s-c48957f76ba1",
+      "name": "愛玉堂　天然翡翠専門",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "221",
+      "booths": [
+        "221"
+      ]
+    },
+    {
+      "id": "s-678d619e1cdf",
+      "name": "あいのて",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "452",
+      "booths": [
+        "452"
+      ]
+    },
+    {
+      "id": "s-af38a028c870",
+      "name": "㈱あうん",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "8",
+      "booths": [
+        "8"
+      ]
+    },
+    {
+      "id": "s-f18ca0aa0cdf",
+      "name": "(株)アサオ工芸",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "180,181",
+      "booths": [
+        "180",
+        "181"
+      ]
+    },
+    {
+      "id": "s-fd8f4870329b",
+      "name": "㈱ASHIYANA",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "A31",
+      "booths": [
+        "A31"
+      ]
+    },
+    {
+      "id": "s-a1dec79a3a47",
+      "name": "ASUWA",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "83",
+      "booths": [
+        "83"
+      ]
+    },
+    {
+      "id": "s-970bff420f6b",
+      "name": "アスタリスク",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "421",
+      "booths": [
+        "421"
+      ]
+    },
+    {
+      "id": "s-ff112ac1b1ae",
+      "name": "ASUNARO STONE",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "656,657",
+      "booths": [
+        "656",
+        "657"
+      ]
+    },
+    {
+      "id": "s-8f3f1fe9ff92",
+      "name": "アップフィールド",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "418,419",
+      "booths": [
+        "418",
+        "419"
+      ]
+    },
+    {
+      "id": "s-81b13c4ac4a2",
+      "name": "Atomic Soul",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "432",
+      "booths": [
+        "432"
+      ]
+    },
+    {
+      "id": "s-799d4d738520",
+      "name": "アトリエジェム/ブラックオパール店",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "51",
+      "booths": [
+        "51"
+      ]
+    },
+    {
+      "id": "s-a9cd788f054e",
+      "name": "Atelier Mallet",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "653",
+      "booths": [
+        "653"
+      ]
+    },
+    {
+      "id": "s-abc76db3839f",
+      "name": "atelier Ruchi",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "B26",
+      "booths": [
+        "B26"
+      ]
+    },
+    {
+      "id": "s-35ec84a03547",
+      "name": "ANAM gems アナムジェムズ",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "704,705",
+      "booths": [
+        "704",
+        "705"
+      ]
+    },
+    {
+      "id": "s-e77325927f8f",
+      "name": "㈱アニダイヤモンド",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "397,398",
+      "booths": [
+        "397",
+        "398"
+      ]
+    },
+    {
+      "id": "s-a34a75aa9161",
+      "name": "Afghan Brothers Co.,Ltd",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "DB3",
+      "booths": [
+        "DB3"
+      ]
+    },
+    {
+      "id": "s-3108eb627042",
+      "name": "ARMEE GEM",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "164",
+      "booths": [
+        "164"
+      ]
+    },
+    {
+      "id": "s-2947eb47b448",
+      "name": "㈲網倉天然石",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "63,64",
+      "booths": [
+        "63",
+        "64"
+      ]
+    },
+    {
+      "id": "s-cc0590f29d08",
+      "name": "Amu Yattra",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "697",
+      "booths": [
+        "697"
+      ]
+    },
+    {
+      "id": "s-9e2b5f08a87d",
+      "name": "amunlapo",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "652",
+      "booths": [
+        "652"
+      ]
+    },
+    {
+      "id": "s-8762fa3ac7c2",
+      "name": "AMERI",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "A3",
+      "booths": [
+        "A3"
+      ]
+    },
+    {
+      "id": "s-598bb7e7bead",
+      "name": "アラナヴジェムス㈱",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "202～205",
+      "booths": [
+        "202",
+        "203",
+        "204",
+        "205"
+      ]
+    },
+    {
+      "id": "s-b053cc9c601a",
+      "name": "ALANKAR",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "300",
+      "booths": [
+        "300"
+      ]
+    },
+    {
+      "id": "s-5d691bad4a84",
+      "name": "Awale International Co., Ltd",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "255",
+      "booths": [
+        "255"
+      ]
+    },
+    {
+      "id": "s-9638946109cc",
+      "name": "㈱アンジャリジュエルス",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "122,123",
+      "booths": [
+        "122",
+        "123"
+      ]
+    },
+    {
+      "id": "s-c69075f144b3",
+      "name": "Anjuri",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "684",
+      "booths": [
+        "684"
+      ]
+    },
+    {
+      "id": "s-a60acdf0e59b",
+      "name": "アンダラクリスタル・ミュゼ",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "384",
+      "booths": [
+        "384"
+      ]
+    },
+    {
+      "id": "s-f9677cf8853e",
+      "name": "ガーネット専門店　ガーネットファンズ",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "448,449",
+      "booths": [
+        "448",
+        "449"
+      ]
+    },
+    {
+      "id": "s-5e62d19a1887",
+      "name": "CAHiER",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "508",
+      "booths": [
+        "508"
+      ]
+    },
+    {
+      "id": "s-8359d26bd52a",
+      "name": "Kaicrystal",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "358,359",
+      "booths": [
+        "358",
+        "359"
+      ]
+    },
+    {
+      "id": "s-5efb2dafba7e",
+      "name": "かざり屋あきつ",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "665",
+      "booths": [
+        "665"
+      ]
+    },
+    {
+      "id": "s-af0d1a5e724f",
+      "name": "世界の化石販売　KASEKIYA",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "B37",
+      "booths": [
+        "B37"
+      ]
+    },
+    {
+      "id": "s-07e93c986d29",
+      "name": "KACHIN GRACE GEMS MYANMAR合同会社",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "27,28",
+      "booths": [
+        "27",
+        "28"
+      ]
+    },
+    {
+      "id": "s-d266af70f800",
+      "name": "金森貿易",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "677",
+      "booths": [
+        "677"
+      ]
+    },
+    {
+      "id": "s-ced6e9afd436",
+      "name": "がね亭",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "492",
+      "booths": [
+        "492"
+      ]
+    },
+    {
+      "id": "s-1515a03a1c1b",
+      "name": "かめだ商事",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "B34",
+      "booths": [
+        "B34"
+      ]
+    },
+    {
+      "id": "s-f2fba33046bf",
+      "name": "ガリンポ",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "450,451",
+      "booths": [
+        "450",
+        "451"
+      ]
+    },
+    {
+      "id": "s-e1da6b9a783d",
+      "name": "川口ボーリング",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "213",
+      "booths": [
+        "213"
+      ]
+    },
+    {
+      "id": "s-d86bf7dc1e60",
+      "name": "㈲カンパス",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "190,191,192",
+      "booths": [
+        "190",
+        "191",
+        "192"
+      ]
+    },
+    {
+      "id": "s-1f2e3d2a3ea0",
+      "name": "Ganpanda Stone（ガンパンダストーン）",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "660,661",
+      "booths": [
+        "660",
+        "661"
+      ]
+    },
+    {
+      "id": "s-38de94b0eca0",
+      "name": "㈱キアイ",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "472",
+      "booths": [
+        "472"
+      ]
+    },
+    {
+      "id": "s-2571da4dbfaf",
+      "name": "㈲キーストーン",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "128,129",
+      "booths": [
+        "128",
+        "129"
+      ]
+    },
+    {
+      "id": "s-df61afd40ebf",
+      "name": "㈱ぎおん石",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "A10",
+      "booths": [
+        "A10"
+      ]
+    },
+    {
+      "id": "s-e04be35d3390",
+      "name": "POCKET BY KISHUN",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "303,304",
+      "booths": [
+        "303",
+        "304"
+      ]
+    },
+    {
+      "id": "s-695ec91d22e9",
+      "name": "吉峰堂 Kippodo",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "98,99",
+      "booths": [
+        "98",
+        "99"
+      ]
+    },
+    {
+      "id": "s-60b0d5faa27b",
+      "name": "㈱CHIMERA",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "B41",
+      "booths": [
+        "B41"
+      ]
+    },
+    {
+      "id": "s-a18ecba4cff5",
+      "name": "天然石Carry Lack",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "B45",
+      "booths": [
+        "B45"
+      ]
+    },
+    {
+      "id": "s-8764af662800",
+      "name": "cute stone",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "311,312",
+      "booths": [
+        "311",
+        "312"
+      ]
+    },
+    {
+      "id": "s-581a301dc026",
+      "name": "Curious",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "B54",
+      "booths": [
+        "B54"
+      ]
+    },
+    {
+      "id": "s-29396ab0c4bc",
+      "name": "京都ジュエリージェム",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "33",
+      "booths": [
+        "33"
+      ]
+    },
+    {
+      "id": "s-d9dd5aa9bb05",
+      "name": "キラワールド",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "34",
+      "booths": [
+        "34"
+      ]
+    },
+    {
+      "id": "s-179f4412bb97",
+      "name": "近未来石屋",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "DB5",
+      "booths": [
+        "DB5"
+      ]
+    },
+    {
+      "id": "s-511cba5e0c9e",
+      "name": "鬮石(くじいし)",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "488,489",
+      "booths": [
+        "488",
+        "489"
+      ]
+    },
+    {
+      "id": "s-63e0f30f9820",
+      "name": "㈱グッドストーン",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "344,345",
+      "booths": [
+        "344",
+        "345"
+      ]
+    },
+    {
+      "id": "s-eb79745001db",
+      "name": "クラウン商会",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "52,53",
+      "booths": [
+        "52",
+        "53"
+      ]
+    },
+    {
+      "id": "s-4c2465b8b135",
+      "name": "倉沢ヒマラヤ水晶店",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "485",
+      "booths": [
+        "485"
+      ]
+    },
+    {
+      "id": "s-e72a27364c9c",
+      "name": "GraVie",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "321",
+      "booths": [
+        "321"
+      ]
+    },
+    {
+      "id": "s-3bfdb663ad94",
+      "name": "クラリタ",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "124",
+      "booths": [
+        "124"
+      ]
+    },
+    {
+      "id": "s-fa0e0fbbeb93",
+      "name": "㈱クラリティ",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "A26",
+      "booths": [
+        "A26"
+      ]
+    },
+    {
+      "id": "s-404d13f6abb0",
+      "name": "グランヴェール㈱",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "18,19",
+      "booths": [
+        "18",
+        "19"
+      ]
+    },
+    {
+      "id": "s-2e679fc0c5b2",
+      "name": "㈱グランド",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "DB6",
+      "booths": [
+        "DB6"
+      ]
+    },
+    {
+      "id": "s-ed6c0b060916",
+      "name": "クリスタリーナ",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "226",
+      "booths": [
+        "226"
+      ]
+    },
+    {
+      "id": "s-5ce52ecdfab0",
+      "name": "Crystal Earth",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "B44",
+      "booths": [
+        "B44"
+      ]
+    },
+    {
+      "id": "s-bd69e0469058",
+      "name": "クリスタルガラージュ GAIA",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "446",
+      "booths": [
+        "446"
+      ]
+    },
+    {
+      "id": "s-b753eb9704e4",
+      "name": "クリスタルキング",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "54,55",
+      "booths": [
+        "54",
+        "55"
+      ]
+    },
+    {
+      "id": "s-a539572d8376",
+      "name": "CRYSTAL STAGE",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "369,370",
+      "booths": [
+        "369",
+        "370"
+      ]
+    },
+    {
+      "id": "s-a82f5c1e5cd5",
+      "name": "クリスタルヘブン",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "103",
+      "booths": [
+        "103"
+      ]
+    },
+    {
+      "id": "s-ded95dc6107a",
+      "name": "クリスタルワークス",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "118,119",
+      "booths": [
+        "118",
+        "119"
+      ]
+    },
+    {
+      "id": "s-99ff2192dea5",
+      "name": "㈱クリスタル・ワールド",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "DB1",
+      "booths": [
+        "DB1"
+      ]
+    },
+    {
+      "id": "s-d0073e8b2691",
+      "name": "グレースコーポレーション",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "511",
+      "booths": [
+        "511"
+      ]
+    },
+    {
+      "id": "s-d5f2e07f5f9f",
+      "name": "クローバー/Erio",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "320",
+      "booths": [
+        "320"
+      ]
+    },
+    {
+      "id": "s-d0ae1f6f4b44",
+      "name": "clover house / Peony Crystal / Crazy stone",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "386,387",
+      "booths": [
+        "386",
+        "387"
+      ]
+    },
+    {
+      "id": "s-029fb2574f04",
+      "name": "㈱グローバルジェムスジャパン",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "160,161",
+      "booths": [
+        "160",
+        "161"
+      ]
+    },
+    {
+      "id": "s-57c40b48caec",
+      "name": "K’s Gems",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "11,12",
+      "booths": [
+        "11",
+        "12"
+      ]
+    },
+    {
+      "id": "s-b7362140d928",
+      "name": "K’s stone",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "671,672",
+      "booths": [
+        "671",
+        "672"
+      ]
+    },
+    {
+      "id": "s-29a33061d274",
+      "name": "ケンズクリスタル",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "460",
+      "booths": [
+        "460"
+      ]
+    },
+    {
+      "id": "s-d3a5bacc7150",
+      "name": "絹麻☆Kenma＊",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "43",
+      "booths": [
+        "43"
+      ]
+    },
+    {
+      "id": "s-5dc0d31f0ab2",
+      "name": "甲州屋",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "B40",
+      "booths": [
+        "B40"
+      ]
+    },
+    {
+      "id": "s-bdcd43018cdc",
+      "name": "鉱物販売ポケット4114",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "410",
+      "booths": [
+        "410"
+      ]
+    },
+    {
+      "id": "s-f5e02010d054",
+      "name": "鉱物標本開発",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "20,21",
+      "booths": [
+        "20",
+        "21"
+      ]
+    },
+    {
+      "id": "s-3c237281adf2",
+      "name": "GOD’S WILL JAPAN",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "463",
+      "booths": [
+        "463"
+      ]
+    },
+    {
+      "id": "s-47afc04fce40",
+      "name": "後藤商事",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "251",
+      "booths": [
+        "251"
+      ]
+    },
+    {
+      "id": "s-310da9c8df29",
+      "name": "寿屋(アトリエ　コトブキヤ)",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "73",
+      "booths": [
+        "73"
+      ]
+    },
+    {
+      "id": "s-adc9704e3b92",
+      "name": "こむろ ミネラルズ",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "A･B15",
+      "booths": [
+        "A･B15"
+      ]
+    },
+    {
+      "id": "s-cd40d0481e42",
+      "name": "CORO CORO STONE",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "74,75",
+      "booths": [
+        "74",
+        "75"
+      ]
+    },
+    {
+      "id": "s-012bb071d723",
+      "name": "CONGO MINERALS",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "44",
+      "booths": [
+        "44"
+      ]
+    },
+    {
+      "id": "s-75f98120d7b8",
+      "name": "ダイナミックインターナショナルジャパンインコーポレーション㈲",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "88～97",
+      "booths": [
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97"
+      ]
+    },
+    {
+      "id": "s-02af31cff750",
+      "name": "㈱大八貿易",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "A30",
+      "booths": [
+        "A30"
+      ]
+    },
+    {
+      "id": "s-f6921da0bded",
+      "name": "大和宝飾　伊勢志摩",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "445",
+      "booths": [
+        "445"
+      ]
+    },
+    {
+      "id": "s-d02d25b3fd2e",
+      "name": "日本のヒスイ・高野浅葱",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "433",
+      "booths": [
+        "433"
+      ]
+    },
+    {
+      "id": "s-3076eb66405c",
+      "name": "タケダ鉱物標本",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "239,240",
+      "booths": [
+        "239",
+        "240"
+      ]
+    },
+    {
+      "id": "s-6147abb243ce",
+      "name": "TAKE FIELD",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "498",
+      "booths": [
+        "498"
+      ]
+    },
+    {
+      "id": "s-5304627e6a39",
+      "name": "天然石の玉井堂",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "B51",
+      "booths": [
+        "B51"
+      ]
+    },
+    {
+      "id": "s-3fef82571e20",
+      "name": "Tam＆Tam Gem",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "442",
+      "booths": [
+        "442"
+      ]
+    },
+    {
+      "id": "s-1f18dce9c2b1",
+      "name": "小さな星雲",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "436,437",
+      "booths": [
+        "436",
+        "437"
+      ]
+    },
+    {
+      "id": "s-7d6f53b6a42a",
+      "name": "天然石 チャイハナ",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "681",
+      "booths": [
+        "681"
+      ]
+    },
+    {
+      "id": "s-089c9b054549",
+      "name": "Chanda stone",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "668",
+      "booths": [
+        "668"
+      ]
+    },
+    {
+      "id": "s-84ee3de57789",
+      "name": "㈲チョウラディヤ・パール",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "56,57",
+      "booths": [
+        "56",
+        "57"
+      ]
+    },
+    {
+      "id": "s-3d47493c7959",
+      "name": "月のかけら",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "360,361",
+      "booths": [
+        "360",
+        "361"
+      ]
+    },
+    {
+      "id": "s-f676199f5157",
+      "name": "坪井ヒスイ",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "481",
+      "booths": [
+        "481"
+      ]
+    },
+    {
+      "id": "s-232ae070871a",
+      "name": "TIAM",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "690",
+      "booths": [
+        "690"
+      ]
+    },
+    {
+      "id": "s-fc1ad32da5dd",
+      "name": "Tian",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "158,159",
+      "booths": [
+        "158",
+        "159"
+      ]
+    },
+    {
+      "id": "s-72bbbc272dea",
+      "name": "DMT Minerals",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "35,36",
+      "booths": [
+        "35",
+        "36"
+      ]
+    },
+    {
+      "id": "s-036d782bdd08",
+      "name": "㈱DG GEMS",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "197～199",
+      "booths": [
+        "197",
+        "198",
+        "199"
+      ]
+    },
+    {
+      "id": "s-7a7c725c19f5",
+      "name": "de’stone",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "385",
+      "booths": [
+        "385"
+      ]
+    },
+    {
+      "id": "s-2376bf943b70",
+      "name": "デザイヤジェムクリエイション㈱",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "194～196",
+      "booths": [
+        "194",
+        "195",
+        "196"
+      ]
+    },
+    {
+      "id": "s-b304b4a29d31",
+      "name": "デザイン工房 AmE’S",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "A29",
+      "booths": [
+        "A29"
+      ]
+    },
+    {
+      "id": "s-3d15b05b769e",
+      "name": "テゾーロ ケイ",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "A32",
+      "booths": [
+        "A32"
+      ]
+    },
+    {
+      "id": "s-2cdfa1b6b65e",
+      "name": "ＴＥＲＲＡ－ＷＩＳＨ",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "422,423",
+      "booths": [
+        "422",
+        "423"
+      ]
+    },
+    {
+      "id": "s-7fbf9facae54",
+      "name": "カピルのお店　デルミリオーレ",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "490,491",
+      "booths": [
+        "490",
+        "491"
+      ]
+    },
+    {
+      "id": "s-475f4ca06ea4",
+      "name": "tenkawacrystal",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "353,354",
+      "booths": [
+        "353",
+        "354"
+      ]
+    },
+    {
+      "id": "s-78aecf57601b",
+      "name": "天然石　ごろごろ",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "B20",
+      "booths": [
+        "B20"
+      ]
+    },
+    {
+      "id": "s-2f0b79432c0d",
+      "name": "天然石工房 cue",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "329",
+      "booths": [
+        "329"
+      ]
+    },
+    {
+      "id": "s-fe042b015c79",
+      "name": "㈲天馬商事",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "374",
+      "booths": [
+        "374"
+      ]
+    },
+    {
+      "id": "s-0fc5ec261b7b",
+      "name": "天龍鳳凰堂＆猫猫宮",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "698",
+      "booths": [
+        "698"
+      ]
+    },
+    {
+      "id": "s-dadc8a19012e",
+      "name": "TOEI TRADING CO.,LTD",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "184～186",
+      "booths": [
+        "184",
+        "185",
+        "186"
+      ]
+    },
+    {
+      "id": "s-a2063dfafba7",
+      "name": "堂谷工房",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "58,59",
+      "booths": [
+        "58",
+        "59"
+      ]
+    },
+    {
+      "id": "s-c789e92cbe2d",
+      "name": "Toyo Commerce Co,LTD",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "A9",
+      "booths": [
+        "A9"
+      ]
+    },
+    {
+      "id": "s-2713f0139f2a",
+      "name": "琥珀専門店　東和パナマ",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "735",
+      "booths": [
+        "735"
+      ]
+    },
+    {
+      "id": "s-63d7c56e5321",
+      "name": "土橋商事",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "230,231",
+      "booths": [
+        "230",
+        "231"
+      ]
+    },
+    {
+      "id": "s-27200070bdad",
+      "name": "Tomato Crystal",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "B53",
+      "booths": [
+        "B53"
+      ]
+    },
+    {
+      "id": "s-15eb1b4d35ba",
+      "name": "TOMOFIN",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "350",
+      "booths": [
+        "350"
+      ]
+    },
+    {
+      "id": "s-af3cf148c737",
+      "name": "Dream Coffret",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "78,79",
+      "booths": [
+        "78",
+        "79"
+      ]
+    },
+    {
+      "id": "s-2aa2f9711952",
+      "name": "ドリームストーンコレクション",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "31,32",
+      "booths": [
+        "31",
+        "32"
+      ]
+    },
+    {
+      "id": "s-660d1cc89d63",
+      "name": "㈱ナーゲット",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "340",
+      "booths": [
+        "340"
+      ]
+    },
+    {
+      "id": "s-5864aac2e8f2",
+      "name": "ナウシカインターナショナル㈱",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "262,263",
+      "booths": [
+        "262",
+        "263"
+      ]
+    },
+    {
+      "id": "s-0167470d1ef5",
+      "name": "㈲ナガタトレーディング",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "A8",
+      "booths": [
+        "A8"
+      ]
+    },
+    {
+      "id": "s-bf1aaa9000b9",
+      "name": "和み石",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "165",
+      "booths": [
+        "165"
+      ]
+    },
+    {
+      "id": "s-3e038c2a7ba4",
+      "name": "なぞのいしやN",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "734",
+      "booths": [
+        "734"
+      ]
+    },
+    {
+      "id": "s-b60543543c6d",
+      "name": "nico",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "692",
+      "booths": [
+        "692"
+      ]
+    },
+    {
+      "id": "s-0cce2b44e19d",
+      "name": "ニミットジェムス㈱",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "B28",
+      "booths": [
+        "B28"
+      ]
+    },
+    {
+      "id": "s-7a3b6042a03e",
+      "name": "ニルヴァーナ　ストーン",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "DB7",
+      "booths": [
+        "DB7"
+      ]
+    },
+    {
+      "id": "s-466b18e35621",
+      "name": "ヌフ・ヌフ",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "218",
+      "booths": [
+        "218"
+      ]
+    },
+    {
+      "id": "s-84cc4e0f1f9f",
+      "name": "nulla egy",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "351,352",
+      "booths": [
+        "351",
+        "352"
+      ]
+    },
+    {
+      "id": "s-b1cd872d07a6",
+      "name": "ネイチャー・ラブ「レムリアの太陽」",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "390,391",
+      "booths": [
+        "390",
+        "391"
+      ]
+    },
+    {
+      "id": "s-7cb82944effa",
+      "name": "ノンプロショップ",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "503",
+      "booths": [
+        "503"
+      ]
+    },
+    {
+      "id": "s-38072be8fbf1",
+      "name": "Alacam Madencilik LTD.",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "722",
+      "booths": [
+        "722"
+      ]
+    },
+    {
+      "id": "s-fec111e98dd0",
+      "name": "Aloha Minerals",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "84,85",
+      "booths": [
+        "84",
+        "85"
+      ]
+    },
+    {
+      "id": "s-864fd4466a58",
+      "name": "Amber Stream",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "604,605",
+      "booths": [
+        "604",
+        "605"
+      ]
+    },
+    {
+      "id": "s-5f713036bc88",
+      "name": "Ammolite world",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "A18",
+      "booths": [
+        "A18"
+      ]
+    },
+    {
+      "id": "s-e1f7d2c82300",
+      "name": "Ashwini Minerals",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "100",
+      "booths": [
+        "100"
+      ]
+    },
+    {
+      "id": "s-81f700add360",
+      "name": "Asterix Ltd.",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "603",
+      "booths": [
+        "603"
+      ]
+    },
+    {
+      "id": "s-5a1544d8dd7f",
+      "name": "Felix Haag Fossilien",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "A21",
+      "booths": [
+        "A21"
+      ]
+    },
+    {
+      "id": "s-8b0de6cb0e60",
+      "name": "FG Minerals",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "B55",
+      "booths": [
+        "B55"
+      ]
+    },
+    {
+      "id": "s-19efd815acaf",
+      "name": "GEM FRANCE",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "723～725",
+      "booths": [
+        "723",
+        "724",
+        "725"
+      ]
+    },
+    {
+      "id": "s-b748cc9ccf03",
+      "name": "GEMS PLANET",
+      "floor": 3,
+      "hall": 2,
+      "area": "R",
+      "boothText": "310",
+      "booths": [
+        "310"
+      ]
+    },
+    {
+      "id": "s-87bbe17e1985",
+      "name": "HARINI&COSMO CARVINGS STUDIO",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "739,740",
+      "booths": [
+        "739",
+        "740"
+      ]
+    },
+    {
+      "id": "s-1f52cb2aa438",
+      "name": "Himalayan Rock Mineral ＆ Handicraft Ind.Pvt. LTD",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "127",
+      "booths": [
+        "127"
+      ]
+    },
+    {
+      "id": "s-f1a45074546a",
+      "name": "HMANI Inc",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "13,14",
+      "booths": [
+        "13",
+        "14"
+      ]
+    },
+    {
+      "id": "s-99fc59044fd7",
+      "name": "Just Jade & Minerals",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "376",
+      "booths": [
+        "376"
+      ]
+    },
+    {
+      "id": "s-76dbfab53bd2",
+      "name": "KIDS MINERARU",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "639",
+      "booths": [
+        "639"
+      ]
+    },
+    {
+      "id": "s-cbafc7889789",
+      "name": "Kohinoor Minerals and Gems",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "B57",
+      "booths": [
+        "B57"
+      ]
+    },
+    {
+      "id": "s-887a1ce46f07",
+      "name": "Konstantin Buslovich",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "646,647",
+      "booths": [
+        "646",
+        "647"
+      ]
+    },
+    {
+      "id": "s-1af11bc29376",
+      "name": "Krautworst Naturstein GmbH",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "A21",
+      "booths": [
+        "A21"
+      ]
+    },
+    {
+      "id": "s-2182b67574be",
+      "name": "Krystalia",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "747",
+      "booths": [
+        "747"
+      ]
+    },
+    {
+      "id": "s-7b52071efc10",
+      "name": "Larbi Import Export",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "644",
+      "booths": [
+        "644"
+      ]
+    },
+    {
+      "id": "s-6ab45c5b25cd",
+      "name": "LES MINERAUX (les-mineraux.fr)",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "612",
+      "booths": [
+        "612"
+      ]
+    },
+    {
+      "id": "s-d14f0bb3e7fd",
+      "name": "Lithographie/Dave Bunk Minerals",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "611",
+      "booths": [
+        "611"
+      ]
+    },
+    {
+      "id": "s-f06521698d16",
+      "name": "Magic Quartz",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "A23",
+      "booths": [
+        "A23"
+      ]
+    },
+    {
+      "id": "s-0c38925a808c",
+      "name": "Malkhan Tourmaline",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "617",
+      "booths": [
+        "617"
+      ]
+    },
+    {
+      "id": "s-5e48a457825a",
+      "name": "Matrix India",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "114～116",
+      "booths": [
+        "114",
+        "115",
+        "116"
+      ]
+    },
+    {
+      "id": "s-2397ba9351da",
+      "name": "Mcneil’s　Minerals",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "618,619",
+      "booths": [
+        "618",
+        "619"
+      ]
+    },
+    {
+      "id": "s-e81301eb0db9",
+      "name": "Meet Stone 晶遇良縁",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "718",
+      "booths": [
+        "718"
+      ]
+    },
+    {
+      "id": "s-8b71888a9c7a",
+      "name": "Meteorite Crations",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "142,143",
+      "booths": [
+        "142",
+        "143"
+      ]
+    },
+    {
+      "id": "s-098376ad1ac6",
+      "name": "Meteorite Hunter",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "247,248",
+      "booths": [
+        "247",
+        "248"
+      ]
+    },
+    {
+      "id": "s-2e1f5dddc1ce",
+      "name": "Michel Ambroise",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "748,749",
+      "booths": [
+        "748",
+        "749"
+      ]
+    },
+    {
+      "id": "s-87194c487107",
+      "name": "Mijo-Fossils",
+      "floor": 4,
+      "hall": 3,
+      "area": "R",
+      "boothText": "714",
+      "booths": [
+        "714"
+      ]
+    },
+    {
+      "id": "s-68ace74027a5",
+      "name": "Mincraft Company",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "109",
+      "booths": [
+        "109"
+      ]
+    },
+    {
+      "id": "s-ab82559e5754",
+      "name": "MINER K",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "620～623",
+      "booths": [
+        "620",
+        "621",
+        "622",
+        "623"
+      ]
+    },
+    {
+      "id": "s-674db76d3ad8",
+      "name": "Mineral & Gem Research",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "633",
+      "booths": [
+        "633"
+      ]
+    },
+    {
+      "id": "s-62a540e822ba",
+      "name": "Mineral’ys",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "606～608",
+      "booths": [
+        "606",
+        "607",
+        "608"
+      ]
+    },
+    {
+      "id": "s-9902e2bb8b7a",
+      "name": "ML COLLECTIONS GALLERY",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "631,632",
+      "booths": [
+        "631",
+        "632"
+      ]
+    },
+    {
+      "id": "s-7dc3352c6835",
+      "name": "Mono International",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "A13",
+      "booths": [
+        "A13"
+      ]
+    },
+    {
+      "id": "s-73ec63ce1c38",
+      "name": "Mo’s Meteorites & Minerals",
+      "floor": 2,
+      "hall": 1,
+      "area": "L",
+      "boothText": "252,253",
+      "booths": [
+        "252",
+        "253"
+      ]
+    },
+    {
+      "id": "s-8cd098331b9e",
+      "name": "Mosaico Ltda",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "130～132",
+      "booths": [
+        "130",
+        "131",
+        "132"
+      ]
+    },
+    {
+      "id": "s-7f2f2206dd93",
+      "name": "Mr.Fossil Co.,Ltd.",
+      "floor": 3,
+      "hall": 2,
+      "area": "L",
+      "boothText": "B17",
+      "booths": [
+        "B17"
+      ]
+    },
+    {
+      "id": "s-6f19fd6cc415",
+      "name": "Multigemas Brazil",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "A17",
+      "booths": [
+        "A17"
+      ]
+    },
+    {
+      "id": "s-46ba62ea5405",
+      "name": "National Minerals",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "A20",
+      "booths": [
+        "A20"
+      ]
+    },
+    {
+      "id": "s-559d9d745729",
+      "name": "New Era Gems",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "A22",
+      "booths": [
+        "A22"
+      ]
+    },
+    {
+      "id": "s-6bf41f4733c2",
+      "name": "Nikhil Gems",
+      "floor": 2,
+      "hall": 1,
+      "area": "R",
+      "boothText": "A4",
+      "booths": [
+        "A4"
+      ]
+    },
+    {
+      "id": "s-e6fab355a025",
+      "name": "Nooristan Crystal",
+      "floor": 2,
+      "hall": 1,
+      "area": "C",
+      "boothText": "9,10",
+      "booths": [
+        "9",
+        "10"
+      ]
+    },
+    {
+      "id": "s-4e154632ddfe",
+      "name": "Pala International",
+      "floor": 4,
+      "hall": 3,
+      "area": "L",
+      "boothText": "609,610",
+      "booths": [
+        "609",
+        "610"
+      ]
+    }
+  ]
+}

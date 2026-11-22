@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1e5960">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="池袋ショーマップ">
+<title>池袋ショー マイマップ</title>
+<link rel="stylesheet" href="./styles.css?v=1">
+</head><body>
+<header><h1>💎 池袋ショー マイマップ</h1></header>
+<main>
+  <nav id="dayTabs" class="choiceRow days" aria-label="訪問日"></nav>
+  <nav id="floorTabs" class="choiceRow floors" aria-label="フロア"></nav>
+  <div class="searchRow"><input id="search" type="search" placeholder="店舗名・ブース番号で検索" aria-label="店舗名・ブース番号で検索"><button id="clear" type="button">消去</button></div>
+  <nav class="choiceRow modes" aria-label="画面"><button data-view="map" class="on">地図</button><button data-view="fav">お気に入り</button><button data-view="list">店舗一覧</button></nav>
+  <div id="mapPanel">
+    <div id="quickResults" class="quickResults hidden" aria-label="検索候補"></div>
+    <div class="zoomBar"><button id="zoomOut" aria-label="縮小">−</button><span id="zoomPercent">100%</span><button id="zoomIn" aria-label="拡大">＋</button><button id="zoomFit">全体</button></div>
+    <div id="mapScroll" class="mapScroll"><div id="mapCanvas" class="mapCanvas"><img id="floorImage" alt="公式フロアマップ"><div id="pinLayer"></div></div></div>
+    <p id="mapHint" class="hint">公式マップを表示しています。お店の位置は詳細画面から印を付けられるよ。</p><p id="coverageBanner" class="hint">初版は先行収録版だよ。すべてのお店はまだ登録されていないよ。</p>
+    <a id="officialMap" target="_blank" rel="noopener">公式フロアマップを開く</a>
+  </div>
+  <section id="listPanel" class="hidden"><div id="resultsCount" class="small muted"></div><div id="shopList" class="shopList"></div></section>
+  <details class="subtleBox"><summary>凡例・使い方</summary><p><span class="dot orange"></span> お気に入りの位置ピン　<span class="dot teal"></span> その他の位置ピン</p><p>店舗一覧や検索結果でお店を選び、「この店の位置を指定」を押して公式図のブース部分をタップすると、地図に印を残せるよ。これは初期版の機能で、まだ全ブースを直接タップできる形ではないよ。</p></details>
+  <details class="subtleBox"><summary>記録のバックアップ・復元</summary><p>お気に入り・訪問順・メモ・訪問済み・位置ピンは、各自のSafari内に保存されるよ。公開GitHubに個人用バックアップをアップしないでね。</p><div class="actions"><button id="exportBtn">記録をバックアップ</button><button id="importBtn">記録を読み込む</button><input id="importFile" type="file" accept=".json,application/json" hidden></div><p id="backupMsg" class="small muted"></p></details>
+  <details class="subtleBox"><summary>開催情報・データの状態</summary><p><strong>第35回 東京ミネラルショー</strong><br>2026年12月11日（金）〜14日（月）<br>サンシャインシティ文化会館 2・3・4階</p><p id="dataStatus"></p><p>店舗一覧は公式発表を元にした初期収録版。公式のすべての出展者を収録したものではありません。会期中の個別の出展日は未確認です。</p><p><a href="https://www.tokyomineralshow.com/exhibitor/" target="_blank" rel="noopener">公式出展者一覧</a> ／ <a href="https://www.tokyomineralshow.com/floormap/" target="_blank" rel="noopener">公式フロアマップ</a></p></details>
+</main>
+<div id="modal" class="modal hidden" role="presentation"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shopName">
+  <div class="sheetHead"><h2 id="shopName"></h2><button id="closeBtn" class="closeBtn" aria-label="閉じる">×</button></div>
+  <div id="shopLocation" class="location"></div><div id="visitDays" class="muted small"></div>
+  <label for="orderInput">訪問順（選択している日の順番）</label><input id="orderInput" type="number" min="1" max="999" step="1" inputmode="numeric" placeholder="例：3">
+  <label for="memoInput">自分用メモ</label><textarea id="memoInput" placeholder="気になる石、予算など"></textarea>
+  <div class="actions"><button id="favBtn">☆ お気に入り</button><button id="visitedBtn">□ 訪問前</button></div>
+  <div class="actions"><button id="setPinBtn">📍 この店の位置を指定</button><button id="removePinBtn">印を消す</button></div>
+  <div id="formError" class="error" role="alert"></div>
+  <div class="actions"><button id="cancelBtn">閉じる</button><button id="saveBtn" class="primary">記録を保存</button></div>
+</div></div>
+<div id="toast" class="toast hidden" role="status"></div>
+<script src="./app.js?v=1" defer></script>
+</body></html>
