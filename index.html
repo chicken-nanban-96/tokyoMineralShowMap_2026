@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="池袋ショーマップ">
 <title>池袋ショー マイマップ</title>
-<link rel="stylesheet" href="./styles.css?v=09">
+<link rel="stylesheet" href="./styles.css?v=10">
 </head>
 <body>
 <header class="compactHeader"><h1>💎 池袋ショー マイマップ</h1></header>
@@ -30,8 +30,8 @@
       <button id="zoomReset" type="button">戻す</button>
       <button id="zoomFit" type="button">全体</button>
     </div>
-    <div id="mapScroll" class="mapScroll"><div id="mapCanvas" class="mapCanvas"><img id="floorImage" alt="池袋ショー公式配置図"><div id="hotspotLayer"></div></div></div>
-    <p id="mapHint" class="hint">ブースを押すと詳細を表示するよ。</p>
+    <div id="mapScroll" class="mapScroll"><div id="mapCanvas" class="mapCanvas"><div id="hotspotLayer" aria-label="ブース配置図"></div></div></div>
+    <p id="mapHint" class="hint">色の付いたブースを押すとお店の詳細が開くよ。</p>
   </section>
   <section id="listPanel" class="hidden"><div id="shopList" class="entries"></div></section>
   <details class="mapLegend" id="mapLegend">
@@ -39,7 +39,7 @@
     <div class="legendContents">
       <div class="legendTitle">マイマップの表示</div>
       <div class="legendItems">
-        <span><i class="swatch swatchHit"></i>検索・位置表示</span>
+        <span><i class="swatch swatchHit"></i>検索・位置表示</span><span><i class="swatch swatchMapped"></i>登録済みブース</span>
         <span><i class="swatch swatchFav"></i>お気に入り</span>
         <span><i class="swatch swatchOrder"></i>訪問順の数字</span>
       </div>
@@ -62,8 +62,8 @@
       <p id="coverageBanner" class="infoNote">出展者データを読み込んでいるよ。</p>
       <p id="hotspotStatus" class="infoNote"></p>
       <p id="dataStatus" class="small muted"></p>
-      <p>2階の13〜97番はまだ位置対応が未確認なので、地図上での色付けとタップは一部未対応だよ。「この店舗の位置を表示」を押すと未登録の案内が出るよ。</p>
-      <p><a id="officialMap" target="_blank" rel="noopener">表示中の階の公式フロアマップ</a></p>
+      <p>2階の13〜97番は位置対応が未確認なので、地図上の色付けとタップは未対応。未登録の店舗は「位置情報未登録」と表示するよ。</p>
+      <p><a id="officialMap" target="_blank" rel="noopener">公式配置図（位置確認用）</a></p>
       <p><a href="https://www.tokyomineralshow.com/exhibitor/" target="_blank" rel="noopener">公式出展者一覧</a> ／ <a href="https://www.tokyomineralshow.com/floormap/" target="_blank" rel="noopener">公式フロアマップ一覧</a></p>
     </div>
   </details>
@@ -85,6 +85,6 @@
   </div>
 </div>
 <div id="toast" class="toast hidden" role="status"></div>
-<script src="./app.js?v=09" defer></script>
+<script src="./app.js?v=10" defer></script>
 </body>
 </html>

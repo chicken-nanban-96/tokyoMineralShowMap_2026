@@ -1,61 +1,34 @@
-# 池袋ショー・マイマップ 2026
+# 10 池袋ショーマイマップ：浅草式のブース直描画版
 
-第35回東京ミネラルショー（2026年12月11〜14日、池袋サンシャインシティ文化会館2・3・4階）向け、個人用の巡回管理マップ。
+## 今回の更新
 
-## 現時点の完成度
+- 公式配置図に透明な枠を重ねる方式を廃止し、map.json のブース座標とサイズから、独立した四角のブースを描く方式へ変更。
+- 検索ヒットは緑、お気に入りはオレンジ枠、店舗の位置表示は緑色にして通知を出さない。
+- ブース番号をタップして店舗詳細、日付・階切替、お気に入り、訪問順、メモ、訪問済み、拡大縮小、バックアップ機能を維持。
+- 失敗した画像取得用スクリプト・Actionsを廃止し、店舗データ更新専用の workflow を同梱。
+- 画像の輪郭検出は行わず、外部地図画像が読み込めなくてもブースの四角は表示可能。
 
-- Web画面：日付・フロア選択、公式会場図、店舗検索、お気に入り、訪問順、メモ、訪問済、位置ピン、記録のバックアップが動く初版。
-- `shops.json`：**現状は191店舗の先行収録**。公式全件更新は `scripts/update_shops.py` によりGitHub上で実行する必要があります。
-- 地図：公式の配置図画像を表示。全ブースの自動位置指定・番号タップは**未完成**。
+## 大事：精度について
 
-## GitHub Pagesでの使い方
+- 地図は独立描画なので画像への重なりずれは生じないが、map.json に登録済みの座標・区画形状が公式の実配置と全件一致する保証はまだない。
+- 2階13〜97番は位置対応が未確認なので描画しない。該当店は店舗一覧とメモの機能を使える。
+- これは「公式図の完全な複製」ではなく、登録済み位置に基づく模式図の更新版。
 
-`index.html` / `app.js` / `styles.css` / `shops.json` / `map.json` をリポジトリのルートに置きます。GitHub Pagesは `main` の `/(root)` から公開してください。
+## ZIP内のファイル
 
-## ★公式出展者の全件取り込み（iPhoneから）
+- index.html / app.js / styles.css / map.json : Webアプリ本体・配置データ
+- shops.json : **このZIP内は作業環境に残っている191店舗の古いサンプルです。GitHubの自動更新済み店舗データではありません。**
+- scripts/update_shops.py : 店舗データの取得スクリプト
+- github_workflows/update-shops.yml : 店舗データ更新だけを行う Actions 設定（iPhoneから見えるよう、隠しフォルダ名を使用していません）
 
-現在のサイトに5ファイルをアップ済みなら、**追加するのは次の2ファイルだけ**。
+## GitHubへの反映
 
-1. `scripts/update_shops.py`（Pythonプログラム）
-2. `.github/workflows/update-shops.yml`（GitHub Actions設定）
+1. index.html / app.js / styles.css / map.json をリポジトリ直下に上書き。
+2. scripts/update_shops.py は GitHub の scripts/ に配置。
+3. github_workflows/update-shops.yml は、GitHubでは **.github/workflows/update-shops.yml** に配置。ZIPの github_workflows/ をそのまま GitHub直下に置いても Actions の設定にはなりません。
+4. **shops.jsonは上書きしないこと。** GitHub上で更新された店舗情報を保持してください。アップロード時は、ZIP中の shops.json だけ選択しないでください。
+5. GitHubの .github/workflows/update-shops.yml を2の配置済みスクリプトを使う旧来の設定に戻せば、マップ画像を取得する Actions を実行する必要はありません。
 
-どちらも **ファイル名だけでなく、フォルダの階層が重要**です。完成したリポジトリでは次の配置になります。
+## 個人記録
 
-```
-index.html
-app.js
-styles.css
-shops.json
-map.json
-scripts/
-  update_shops.py
-.github/
-  workflows/
-    update-shops.yml
-```
-
-GitHubブラウザ画面の **Add file → Create new file** から `scripts/update_shops.py` のようにスラッシュ込みで名前を入力すると、必要なフォルダが作成できます。内容はこのZIP内のファイルからコピーできます。iPhoneで長いコードをコピーしづらい場合はPCからフォルダごとアップロードする方が簡単です。
-
-**先にPythonファイル、次にワークフローファイル**を追加してください。後者をコミットすると、`push` イベントで自動実行される設定です（GitHub Actionsが有効な場合）。
-
-GitHubの **Actions → 「池袋ショー 出展者一覧を公式サイトから更新」** で実行結果を確認できます。自動で動かなければ **Run workflow** を押して手動実行してください。
-
-**成功した場合：** 公式の国内8区分・海外2区分の10ページから `shops.json` を作成し、GitHub上のファイルを自動更新します。公開マップを再読み込みすると、収録件数が191件から増えているはずです。
-
-**失敗した場合：** 既存の `shops.json` はそのまま残ります。Actionsの赤い実行履歴からエラーログを確認してください。公式サイト側の接続制限やHTML変更が原因の可能性があります。
-
-> 注：こちらの実行環境では公式サイトへのスクリプトからの実接続ができないため、**公式全件の取得成功は現時点では未確認**です。HTMLの解析と既存店舗IDの互換性は模擬データでテスト済みです。
-
-## 記録の引き継ぎ
-
-店舗IDは従来どおり「店舗名＋会場番号」を基に決定します。既存191店舗のIDがすべて一致することを確認済みです。ただし公式サイトで店舗名自体が変更された場合は、別のお店として扱われる可能性があります。
-
-お気に入り・メモなどの個人データはiPhoneのWebアプリ内の `localStorage` に保存され、GitHubの公開リポジトリには書き込まれません。念のため、店舗データ更新前に**記録をバックアップ**してください。
-
-## 公式情報
-
-- 出展者一覧：https://www.tokyomineralshow.com/exhibitor/
-- フロアマップ：https://www.tokyomineralshow.com/floormap/
-- 開催概要：https://www.tokyomineralshow.com/outline/
-
-公式の掲載内容は変更される場合があります。マップは非公式・個人制作です。
+GitHub Pagesの同じURLで開けば、既存のlocalStorageの保存キーを変更していないため、従来のお気に入り・メモ・訪問順を引き継ぐ設計です。作業前には「記録をバックアップ」をおすすめします。

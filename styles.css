@@ -172,3 +172,26 @@ main{padding:9px 10px 22px}
 #formError{min-height:0}
 .toast{position:fixed;z-index:40;bottom:calc(16px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);max-width:min(93%,500px);min-width:240px;padding:12px 16px;color:white;background:#1d4955;border-radius:12px;box-shadow:0 5px 26px #0004;text-align:center;font-size:13px;line-height:1.5}
 @media(max-width:420px){.choices.days,.choices.floors,.choices.tabs{gap:5px}.choices button{font-size:12px;padding:10px 2px}.zoomToolbar{gap:5px}.zoomToolbar button{padding:5px 7px}.mapScroll{max-height:73vh}}
+
+/* v10: independent vector booths, no image-overlay offset */
+.mapCanvas{background:#f5f9f8;overflow:visible}
+#hotspotLayer{position:absolute;inset:0;z-index:2;pointer-events:auto}
+.floorSVG{display:block;width:100%;height:100%;overflow:visible}
+.floorBG{fill:#fcfdfc;stroke:#bccdd1;stroke-width:1}
+.boothSVG{cursor:pointer;outline:none}
+.boothSVG .tileBody{stroke:#729499;stroke-width:.75;vector-effect:non-scaling-stroke;fill:#e1f0ed}
+.boothSVG.areaL .tileBody{fill:#f4def1;stroke:#b78db1}
+.boothSVG.areaR .tileBody{fill:#dbedfb;stroke:#82a8c4}
+.boothSVG.areaC .tileBody{fill:#eef2ce;stroke:#a7b57c}
+.boothSVG.areaOther .tileBody{fill:#edf1ef;stroke:#a9bdb8}
+.boothSVG.noShop .tileBody{opacity:.55}
+.boothSVG .tileCode{pointer-events:none;fill:#254452;font-family:system-ui,sans-serif;font-weight:750}
+.boothSVG.tileFav .tileBody{stroke:#e38302;stroke-width:2.4;fill:#fff1b7}
+.boothSVG.tileHit .tileBody{stroke:#398813;stroke-width:2.4;fill:#b6f961}
+.boothSVG.tileHit.tileFav .tileBody{stroke:#de7900;stroke-width:2.5;fill:#c6f46e}
+.boothSVG.tileVisited:not(.tileHit){opacity:.55}
+.boothSVG.tileProvisional .tileBody{stroke-dasharray:3 2}
+.boothSVG:focus .tileBody{stroke:#175984;stroke-width:2.5}
+.tileRank circle{fill:#e08a1e;stroke:white;stroke-width:1}
+.tileRank text{fill:white;stroke:none;pointer-events:none;font-weight:850}
+.swatchMapped{background:#e1f0ed;border:1px solid #729499}
