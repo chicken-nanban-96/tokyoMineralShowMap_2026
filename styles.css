@@ -144,8 +144,8 @@ main{padding:9px 10px 22px}
 .mapScroll{width:100%;max-height:min(76vh,850px);overflow:auto;position:relative;background:white;border:1px solid #c6dadc;border-radius:12px;overscroll-behavior:contain;touch-action:pan-x pan-y}
 .mapCanvas{display:block;position:relative;line-height:0;user-select:none;-webkit-user-select:none;max-width:none}
 .mapCanvas img{display:block;width:100%;height:auto;max-width:none;pointer-events:none}
-#hotspotLayer,#pinLayer{position:absolute;inset:0;pointer-events:none}
-#hotspotLayer{z-index:2}#pinLayer{z-index:3}
+#hotspotLayer,
+#hotspotLayer{z-index:2}
 .hotspot{position:absolute;transform:translate(-50%,-50%);border:2px solid transparent;background:transparent;border-radius:2px;padding:0;pointer-events:auto;display:block;overflow:visible;touch-action:manipulation;color:transparent;min-width:5px;min-height:5px;box-shadow:none}
 .hotspot.hotspotFav{border-color:#e99419;background:#ffd28a55;box-shadow:0 0 0 1px #b96c02,0 0 6px #e5902355;z-index:2}
 .hotspot.hotspotHit{border-color:#458b25;background:#bcf553de;box-shadow:0 0 0 2px #78c427,0 0 9px 1px #bdfb63;z-index:4}
@@ -154,15 +154,15 @@ main{padding:9px 10px 22px}
 .hotspot.hotspotProvisional.hotspotHit{border-style:dashed}
 .hotspot:focus-visible{outline:2px solid #2376a6;outline-offset:1px}
 .hotspotRank{position:absolute;top:-9px;left:-8px;border-radius:99px;background:#e37424;border:1.5px solid white;color:white;min-width:16px;height:16px;padding:0 3px;font-size:10px;line-height:13px;font-weight:900;text-align:center;white-space:nowrap;z-index:5;box-shadow:0 1px 3px #0006;pointer-events:none}
-.pin{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;background:#166a71;color:white;border:2px solid white;min-width:20px;height:20px;padding:0 3px;border-radius:30px;box-shadow:0 0 0 2px #12556580,0 1px 3px #0004;font-size:10px;line-height:16px;font-weight:800;display:flex;align-items:center;justify-content:center}
-.pin.favorite{background:#da7f11;box-shadow:0 0 0 2px #eea23d,0 1px 3px #0004}.pin.highlight{background:#96d83b;color:#243400;box-shadow:0 0 0 3px #ddf8a4}.pin.visited{opacity:.55}
-.pinMode{outline:3px solid #e9a84c;outline-offset:-3px}
+
+
+
 .hint{font-size:12px;color:#526c75;line-height:1.6;margin:7px 3px 10px}
 .entryMain{flex:1;min-width:0;display:flex;align-items:center;gap:5px}.entryText{display:block;min-width:0;line-height:1.5}.entryText b{display:block;overflow-wrap:anywhere}.entryText small{display:block;color:#71848a;font-size:11px;font-weight:400;line-height:1.55;margin-top:4px}
 .entry .code{text-align:right;max-width:33%;white-space:normal;overflow-wrap:anywhere;line-height:1.3}.entry .listBadge{margin-right:5px}
 #listPanel{margin-top:10px}
 #resultsCount{margin:8px 2px 12px}
-.swatchPin{background:#166a71;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #166a71}
+
 .backupActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.backupActions button{flex:1;background:#fff;border:1px solid #bdd1d1;border-radius:10px;padding:10px 8px;color:#245962;font-weight:700;font-size:12px}
 .eventInfo a{color:#216f7b}
 #modal.modal:not(.hidden){display:flex}

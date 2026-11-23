@@ -4,7 +4,7 @@
 const $=id=>document.getElementById(id);
 const normalize=value=>String(value??'').normalize('NFKC').toLowerCase().replace(/[\s\-_～〜・.,，、]/g,'');
 const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-let shopData, mapData, shops=[], days=[], floors=[], day='', floor='2', view='map', selected=null, records={}, pinTarget=null, zoom=1, focusShopId=null;
+let shopData, mapData, shops=[], days=[], floors=[], day='', floor='2', view='map', selected=null, records={}, zoom=1, focusShopId=null;
 let storeKey='';
 const currentRecord=shop=>records[shop.id]||(records[shop.id]={fav:false,memo:'',orders:{},visited:{},pin:null});
 const orderFor=shop=>Number(currentRecord(shop).orders?.[day]||0)||0;
@@ -39,7 +39,7 @@ function listShops(){
  return base;
 }
 function changeView(next){view=next;document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===next));render()}
-function switchFloor(next){floor=String(next);pinTarget=null;focusShopId=null;zoom=1;render()}
+function switchFloor(next){floor=String(next);focusShopId=null;zoom=1;render()}
 function switchDay(next){day=next;focusShopId=null;render()}
 function renderTabs(){
  $('dayTabs').innerHTML=days.map(d=>`<button data-day="${esc(d.id)}" class="${day===d.id?'on':''}">${esc(d.label)}</button>`).join('');
@@ -80,9 +80,8 @@ function renderMap(){
  }
  $('officialMap').href=m.officialPage;
  $('resultsCount').textContent=`${days.find(d=>d.id===day)?.label||''}・${floor}階　登録 ${shops.filter(s=>shopFloor(s)===floor).length}店舗`;
- $('mapCanvas').classList.toggle('pinMode',!!pinTarget);
- $('mapHint').textContent=pinTarget?`📍 ${pinTarget.name} の「${pinTarget.boothText}」が印刷されている位置をタップしてね。`:focusShopId?`🟩 ${findShop(focusShopId)?.name||'選択した店舗'} の場所を緑で表示中。「消去」で解除できるよ。`:'地図のブース番号をタップするとお店の詳細が開くよ。検索すると該当ブースが光るよ。';
- applyZoom();renderHotspots();renderPins();renderQuickResults();
+ $('mapHint').textContent=focusShopId?`🟩 ${findShop(focusShopId)?.name||'選択した店舗'} の位置を緑で表示中。「クリア」で解除できるよ。`:'地図のブース番号をタップするとお店の詳細が開くよ。検索すると該当ブースが光るよ。';
+ applyZoom();renderHotspots();renderQuickResults();
 }
 function renderHotspots(){
  const layer=$('hotspotLayer');
@@ -99,8 +98,6 @@ function renderHotspots(){
   const matches=byCode.get(normBooth(h.code))||[];
   if(matches.length)located++;
   const shop=matches.find(s=>q&&isHit(s))||matches[0];
-  const record=shop?currentRecord(shop):null;
-  const hasManualPin=record?.pin?.floor===floor;
   const hit=!!(q&&matches.some(isHit));
   const fav=!!(matches.some(s=>currentRecord(s).fav));
   const visited=!!(matches.length&&matches.every(s=>visitedFor(s)));
@@ -118,21 +115,6 @@ function renderHotspots(){
  $('hotspotStatus').textContent=`${floor}階：配置対応 ${boothSpots().length}区画（店舗データと一致 ${located}区画）${q?`／${focusShopId?'選択した店舗':'検索ヒット'} ${highlighted}区画`:''}。${floorMeta().mappingNotice||''}`;
 }
 
-function renderPins(){
- const q=!!$('search').value.trim()||!!focusShopId;
- const mappedCodes=new Set(boothSpots().map(h=>normBooth(h.code)));
- const pins=shops.filter(s=>{
-  if(shopFloor(s)!==floor||currentRecord(s).pin?.floor!==floor)return false;
-  if(focusShopId&&s.id!==focusShopId)return false;
-  const booths=[...shopBooths(s)];
-  return booths.length===0||!booths.some(code=>mappedCodes.has(normBooth(code)));
- });
- $('pinLayer').innerHTML=pins.map(s=>{
-  const r=currentRecord(s), p=r.pin, n=orderFor(s);
-  const cls=['pin',r.fav?'favorite':'',r.visited?.[day]?'visited':'',q&&(focusShopId?s.id===focusShopId:match(s))?'highlight':''].filter(Boolean).join(' ');
-  return `<button class="${cls}" data-pin-shop="${esc(s.id)}" title="${esc(s.name)}：${esc(s.boothText)}" style="left:${Math.max(0,Math.min(100,p.x*100))}%;top:${Math.max(0,Math.min(100,p.y*100))}%">${n||'●'}</button>`;
- }).join('');
-}
 function openShop(shop){
  if(!shop)return;
  selected=shop;
@@ -148,7 +130,6 @@ function refreshActions(){
  const r=currentRecord(selected);
  $('favBtn').textContent=r.fav?'★ お気に入り登録済':'☆ お気に入り';$('favBtn').classList.toggle('active',r.fav);
  $('visitedBtn').textContent=visitedFor(selected)?'✓ 訪問済み':'□ 訪問前';$('visitedBtn').classList.toggle('active',visitedFor(selected));
- $('removePinBtn').disabled=!r.pin;
 }
 function closeShop(){selected=null;$('modal').classList.add('hidden')}
 function saveDetail(close=true){
@@ -170,25 +151,23 @@ function showShopOnMap(){
  const shopCodes=shopBooths(s);
  const meta=floors.find(f=>f.id===shopFloor(s));
  const spots=(meta?.hotspots||[]).filter(h=>shopCodes.has(normBooth(h.code)));
- const manual=currentRecord(s).pin?.floor===shopFloor(s)?currentRecord(s).pin:null;
- if(!spots.length&&!manual){
-  $('formError').textContent='この店舗はまだ地図上の位置が未登録だよ。「手動で位置を指定」から登録してね。';
+ if(!spots.length){
+  $('formError').textContent='この店舗は位置情報が未登録のため、地図上に表示できません。店舗情報・お気に入り・メモは利用できます。';
   return;
  }
  // モーダル内で編集したメモ・訪問順は、従来と同じく移動前に保存。
  if(!saveDetail(false))return;
  $('search').value='';
  focusShopId=s.id;
- pinTarget=null;
  floor=shopFloor(s);
  zoom=Math.max(zoom,1.8);
  closeShop();
  changeView('map');
  // 地図上の対象ブース（複数区画なら中央）へ寄せる。
- const loc=spots.length?{
+ const loc={
   x:spots.reduce((sum,h)=>sum+h.x,0)/spots.length,
   y:spots.reduce((sum,h)=>sum+h.y,0)/spots.length
- }:manual;
+ };
  const center=()=>{
   if(focusShopId!==s.id)return;
   const scroll=$('mapScroll');
@@ -202,31 +181,15 @@ function showShopOnMap(){
  if(!$('floorImage').complete)$('floorImage').addEventListener('load',center,{once:true});
  message(`${s.name} の位置を緑色で表示したよ。`);
 }
-function beginPin(){
- if(!selected)return;
- if(!saveDetail(false))return;
- pinTarget=selected;focusShopId=null;$('search').value='';
- floor=String(selected.floor);zoom=1;closeShop();changeView('map');
- $('mapScroll').scrollTo({left:0,top:0});message('地図のブース番号が印刷されている場所をタップしてね。');
-}
 function handleMapClick(e){
- if(!pinTarget){
-  const booth=e.target.closest('[data-hotspot]');
-  if(booth){
-   const sellers=shopsAt(booth.dataset.hotspot,floor);
-   if(sellers.length===1){openShop(sellers[0]);return}
-   if(sellers.length>1){openShop(sellers[0]);message(`同じ区画に${sellers.length}店舗の登録があるよ。`);return}
-   message(`${booth.dataset.hotspot} の店舗データはまだ登録されていないよ。`);return;
-  }
- }
- const pinButton=e.target.closest('[data-pin-shop]');
- if(pinButton){openShop(findShop(pinButton.dataset.pinShop));return}
- if(!pinTarget)return;
- const rect=$('mapCanvas').getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width,y=(e.clientY-rect.top)/rect.height;
- if(x<0||x>1||y<0||y>1)return;
- const item=pinTarget;
- currentRecord(item).pin={floor:shopFloor(item),x,y};save();pinTarget=null;focusShopId=item.id;renderMap();message(`${item.name} の位置を記録したよ。`);
+ const booth=e.target.closest('[data-hotspot]');
+ if(!booth)return;
+ const sellers=shopsAt(booth.dataset.hotspot,floor);
+ if(sellers.length===1){openShop(sellers[0]);return}
+ if(sellers.length>1){openShop(sellers[0]);message(`同じ区画に${sellers.length}店舗の登録があるよ。`);return}
+ message(`${booth.dataset.hotspot} の店舗データはまだ登録されていないよ。`);
 }
+
 async function exportRecords(){
  const json=JSON.stringify({format:'mineral-show-memory',version:1,eventId:shopData.eventId,exportedAt:new Date().toISOString(),records},null,2);
  const url=URL.createObjectURL(new Blob([json],{type:'application/json;charset=utf-8'}));
@@ -275,8 +238,6 @@ async function start(){
   $('visitedBtn').onclick=()=>{if(!selected)return;const r=currentRecord(selected);r.visited||={};r.visited[day]=!r.visited[day];save();refreshActions();render()};
   $('saveBtn').onclick=()=>saveDetail(true);
   $('showOnMapBtn').onclick=showShopOnMap;
-  $('setPinBtn').onclick=beginPin;
-  $('removePinBtn').onclick=()=>{if(!selected)return;currentRecord(selected).pin=null;save();refreshActions();renderPins();message('位置の印を解除したよ。')};
   $('closeBtn').onclick=closeShop;$('cancelBtn').onclick=closeShop;$('modal').onclick=e=>{if(e.target===$('modal'))closeShop()};
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeShop()});
   $('zoomIn').onclick=()=>{zoom=Math.min(4,Math.round((zoom+.25)*100)/100);applyZoom()};
