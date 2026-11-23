@@ -82,11 +82,11 @@ function renderMap(){
  const m=floorMeta();if(!m)return;
  $('officialMap').href=m.officialPage;
  $('resultsCount').textContent=`${days.find(d=>d.id===day)?.label||''}・${floor}階　登録 ${shops.filter(s=>shopFloor(s)===floor).length}店舗`;
- $('mapHint').textContent='ブースを押すと店舗の詳細が開くよ。';
+ $('mapHint').classList.add('hidden');
  applyZoom();renderHotspots();renderQuickResults();
 }
 function renderHotspots(){
- const layer=$('hotspotLayer'); if(!layer)return;
+ const layer=$('hotspotLayer');if(!layer)return;
  const m=floorMeta(),W=m.imageSize[0],H=m.imageSize[1];
  const q=!!$('search').value.trim()||!!focusShopId;
  const isHit=s=>focusShopId?s.id===focusShopId:match(s);
@@ -106,19 +106,32 @@ function renderHotspots(){
   if(n)usedRank.add(orderShop.id);
   if(hit)highlighted++;
   const provisional=h.confidence==='provisional';
-  const area=matches[0]?.area||((h.x<.43)?'L':(h.x>.66?'R':'C'));
-  const shade=area==='L'?'areaL':area==='R'?'areaR':area==='C'?'areaC':'areaOther';
-  const cls=['boothSVG',shade,hit?'tileHit':'',fav?'tileFav':'',visited?'tileVisited':'',provisional?'tileProvisional':'',matches.length?'hasShop':'noShop'].filter(Boolean).join(' ');
-  const tip=`${h.code}${matches.length?' '+matches.map(s=>s.name).join('・'):'（店舗情報なし）'}${provisional?' ※位置の対応は暫定':''}`;
+  const cls=['boothSVG',hit?'tileHit':'',fav?'tileFav':'',visited?'tileVisited':'',provisional?'tileProvisional':'',matches.length?'hasShop':'noShop'].filter(Boolean).join(' ');
+  const tip=`${h.code}${matches.length?' '+matches.map(s=>s.name).join('・'):'（店舗情報なし）'}`;
   const cx=h.x*W,cy=h.y*H,ww=h.w*W,hh=h.h*H,x=cx-ww/2,y=cy-hh/2;
-  const fz=Math.max(5,Math.min(12,hh*.72,ww/(String(h.code).length*.62)));
-  const rx=Math.min(2,ww*.06,hh*.12);
-  // Each booth is an actual vector rectangle, not a transparent hit area over an image.
-  return `<g class="${cls}" data-hotspot="${esc(h.code)}" role="button" tabindex="0" aria-label="${esc(tip)}"><title>${esc(tip)}</title><rect class="tileBody" x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${ww.toFixed(2)}" height="${hh.toFixed(2)}" rx="${rx.toFixed(1)}"/><text class="tileCode" x="${cx.toFixed(2)}" y="${(cy+fz*.34).toFixed(2)}" text-anchor="middle" font-size="${fz.toFixed(2)}">${esc(h.code)}</text>${n?`<g class="tileRank"><circle cx="${(x+3).toFixed(1)}" cy="${(y+2).toFixed(1)}" r="6.2"/><text x="${(x+3).toFixed(1)}" y="${(y+4.8).toFixed(1)}" text-anchor="middle" font-size="8">${n}</text></g>`:''}</g>`;
+  const fz=Math.max(4.6,Math.min(9,hh*.53,ww/(String(h.code).length*.68)));
+  const rx=Math.min(1,ww*.04,hh*.08);
+  // 公式図と操作領域を、同一のSVG座標系に配置する。ズーム時も伸縮率が一致。
+  return `<g class="${cls}" data-hotspot="${esc(h.code)}" role="button" tabindex="0" aria-label="${esc(tip)}"><title>${esc(tip)}</title><rect class="tileBody" x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${ww.toFixed(2)}" height="${hh.toFixed(2)}" rx="${rx.toFixed(1)}"/><text class="tileFallbackCode" x="${cx.toFixed(2)}" y="${(cy+fz*.34).toFixed(2)}" text-anchor="middle" font-size="${fz.toFixed(2)}">${esc(h.code)}</text>${n?`<g class="tileRank"><circle cx="${(x+3).toFixed(1)}" cy="${(y+2).toFixed(1)}" r="6.2"/><text x="${(x+3).toFixed(1)}" y="${(y+4.8).toFixed(1)}" text-anchor="middle" font-size="8">${n}</text></g>`:''}</g>`;
  }).join('');
- // Independent Asakusa-style booth drawing. No official map image is loaded.
- layer.innerHTML=`<svg class="floorSVG" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" aria-label="${floor}階 ブース配置図"><rect x="0.5" y="0.5" width="${W-1}" height="${H-1}" class="floorBG"/><g class="boothGroup">${tiles}</g></svg>`;
- $('hotspotStatus').textContent=`${floor}階：表示 ${boothSpots().length}区画（店舗データと一致 ${located}区画）${q?`／${focusShopId?'選択した店舗':'検索ヒット'} ${highlighted}区画`:''}。ブース位置は現在の登録座標による模式表示で、公式配置図との全件照合は未完了。`;
+ // 背景は会場外形・通路・出入口・未登録区画も載った公式図。
+ // 背景と色付け用矩形は同じSVG viewBox上なので、別レイヤーの位置・拡大率ずれを防ぐ。
+ layer.innerHTML=`<svg class="floorSVG" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-label="${floor}階 ブース配置図"><rect class="fallbackBG" x="0" y="0" width="${W}" height="${H}"/><g class="boothGroup">${tiles}</g></svg>`;
+ // SVG <image> の互換性が低いSafariでは、同じ座標枠にHTML <img>を表示する。
+ // 実際の図が読めなかったときだけ簡易表示に切り替える。
+ const canvas=$('mapCanvas');
+ let img=$('floorMapImage');
+ if(!img){img=document.createElement('img');img.id='floorMapImage';img.alt='公式 '+floor+'階フロアマップ';canvas.insertBefore(img,layer)}
+ if(img.dataset.src!==m.image){
+  // 通信中も地図が真っ白にならないよう、簡易図を仮表示する。
+  canvas.classList.add('officialImageFailed');
+  img.style.visibility='hidden';
+  img.onload=()=>{if(img.dataset.src===m.image){img.style.visibility='visible';canvas.classList.remove('officialImageFailed');$('mapHint').classList.add('hidden')}};
+  img.onerror=()=>{if(img.dataset.src===m.image){img.style.visibility='hidden';canvas.classList.add('officialImageFailed');$('mapHint').textContent='公式配置図を読み込めないため、簡易表示に切り替えました。';$('mapHint').classList.remove('hidden')}};
+  img.dataset.src=m.image;
+  img.src=m.image;
+ }
+ $('hotspotStatus').textContent=`${floor}階：位置登録 ${boothSpots().length}区画、店舗と一致 ${located}区画${q?`、強調表示 ${highlighted}区画`:''}。${floor==='2'?'13〜97番など一部ブースは位置情報が未登録です。':'位置表示は登録済みのブースのみ対応しています。'}`;
 }
 
 function openShop(shop){

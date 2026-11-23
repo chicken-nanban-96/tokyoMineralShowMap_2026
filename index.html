@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="池袋ショーマップ">
 <title>池袋ショー マイマップ</title>
-<link rel="stylesheet" href="./styles.css?v=11">
+<link rel="stylesheet" href="./styles.css?v=12">
 </head>
 <body>
 <header class="compactHeader"><h1>💎 池袋ショー マイマップ</h1></header>
@@ -31,7 +31,7 @@
       <button id="zoomFit" type="button">全体</button>
     </div>
     <div id="mapScroll" class="mapScroll"><div id="mapCanvas" class="mapCanvas"><div id="hotspotLayer" aria-label="ブース配置図"></div></div></div>
-    <p id="mapHint" class="hint">ブースを押すと店舗の詳細が開くよ。</p>
+    <p id="mapHint" class="hint hidden" role="status"></p>
   </section>
   <section id="listPanel" class="hidden"><div id="shopList" class="entries"></div></section>
   <details class="mapLegend" id="mapLegend">
@@ -39,7 +39,7 @@
     <div class="legendContents">
       <div class="legendTitle">マイマップの表示</div>
       <div class="legendItems">
-        <span><i class="swatch swatchHit"></i>検索・位置表示</span><span><i class="swatch swatchMapped"></i>登録済みブース</span>
+        <span><i class="swatch swatchHit"></i>検索・位置表示</span>
         <span><i class="swatch swatchFav"></i>お気に入り</span>
         <span><i class="swatch swatchOrder"></i>訪問順の数字</span>
       </div>
@@ -82,6 +82,6 @@
   </div>
 </div>
 <div id="toast" class="toast hidden" role="status"></div>
-<script src="./app.js?v=11" defer></script>
+<script src="./app.js?v=12" defer></script>
 </body>
 </html>
