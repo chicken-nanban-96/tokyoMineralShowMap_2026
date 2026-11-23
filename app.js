@@ -25,6 +25,15 @@ function shopBooths(shop){
 }
 const shopsAt=(code,locFloor)=>shops.filter(s=>shopFloor(s)===locFloor&&shopBooths(s).has(normBooth(code)));
 const boothSpots=()=>floorMeta()?.hotspots||[];
+// 地図に実際の四角を描けるブースのみ「位置あり」と判定する。
+function mappedSpotsFor(shop){
+ if(!shop)return [];
+ const codes=shopBooths(shop);
+ const meta=floors.find(f=>f.id===shopFloor(shop));
+ return (meta?.hotspots||[]).filter(h=>codes.has(normBooth(h.code))&&
+  [h.x,h.y,h.w,h.h].every(v=>typeof v==='number'&&Number.isFinite(v))&&
+  h.x>=0&&h.x<=1&&h.y>=0&&h.y<=1&&h.w>0&&h.h>0);
+}
 
 function findShop(id){return shops.find(s=>s.id===id)}
 function match(s){const q=normalize($('search').value);return !q||normalize([s.name,s.boothText,s.area,`${s.floor}階`, ...(s.booths||[]),currentRecord(s).memo].join(' ')).includes(q)}
@@ -73,7 +82,7 @@ function renderMap(){
  const m=floorMeta();if(!m)return;
  $('officialMap').href=m.officialPage;
  $('resultsCount').textContent=`${days.find(d=>d.id===day)?.label||''}・${floor}階　登録 ${shops.filter(s=>shopFloor(s)===floor).length}店舗`;
- $('mapHint').textContent=focusShopId?`🟩 ${findShop(focusShopId)?.name||'選択した店舗'} を緑で表示中。クリアで解除できるよ。`:'ブースの四角を押すとお店の詳細を表示。検索すると該当ブースが緑色になるよ。';
+ $('mapHint').textContent='ブースを押すと店舗の詳細が開くよ。';
  applyZoom();renderHotspots();renderQuickResults();
 }
 function renderHotspots(){
@@ -118,7 +127,6 @@ function openShop(shop){
  const r=currentRecord(shop);
  $('shopName').textContent=shop.name;
  $('shopLocation').textContent=`${shop.floor}階・第${shop.hall}会場　エリア${shop.area}　ブース ${shop.boothText}`;
- $('visitDays').textContent='公式出展者一覧は会期共通の掲載。個別の出展日は未確認。';
  $('memoInput').value=r.memo||'';$('orderInput').value=orderFor(shop)||'';$('formError').textContent='';
  refreshActions();$('modal').classList.remove('hidden');
 }
@@ -126,7 +134,13 @@ function refreshActions(){
  if(!selected)return;
  const r=currentRecord(selected);
  $('favBtn').textContent=r.fav?'★ お気に入り登録済':'☆ お気に入り';$('favBtn').classList.toggle('active',r.fav);
+ // 石フリマ版と同じ「□ 訪問前／✓ 訪問済み」の表示を維持。
  $('visitedBtn').textContent=visitedFor(selected)?'✓ 訪問済み':'□ 訪問前';$('visitedBtn').classList.toggle('active',visitedFor(selected));
+ const locationButton=$('showOnMapBtn');
+ const mapped=mappedSpotsFor(selected).length>0;
+ locationButton.disabled=!mapped;
+ locationButton.title=mapped?'':'位置情報が未登録の店舗です';
+ locationButton.setAttribute('aria-label',mapped?'この店舗の位置を表示':'位置情報未登録のため、地図上に表示できません');
 }
 function closeShop(){selected=null;$('modal').classList.add('hidden')}
 function saveDetail(close=true){
@@ -145,13 +159,8 @@ function saveDetail(close=true){
 function showShopOnMap(){
  if(!selected)return;
  const s=selected;
- const shopCodes=shopBooths(s);
- const meta=floors.find(f=>f.id===shopFloor(s));
- const spots=(meta?.hotspots||[]).filter(h=>shopCodes.has(normBooth(h.code)));
- if(!spots.length){
-  $('formError').textContent='この店舗は位置情報が未登録のため、地図上に表示できません。店舗情報・お気に入り・メモは利用できます。';
-  return;
- }
+ const spots=mappedSpotsFor(s);
+ if(!spots.length)return; // データ更新などに備えた安全策。エラーは表示しない。
  // モーダル内で編集したメモ・訪問順は、従来と同じく移動前に保存。
  if(!saveDetail(false))return;
  $('search').value='';
@@ -211,7 +220,6 @@ async function start(){
   storeKey='mineral-show-memory:'+shopData.eventId;
   try{records=JSON.parse(localStorage.getItem(storeKey)||'{}')||{}}catch(err){records={}}
   document.querySelector('h1').textContent='💎 '+shopData.title;
-  $('dataStatus').textContent=`現在の収録：${shops.length}店舗（${shopData.coverage==='partial'?'先行収録・未完成':'公式一覧から更新したデータ'}）`;
   $('coverageBanner').textContent=shopData.coverage==='partial'?`※ 初期版は${shops.length}店舗のみ先行収録。全店の登録は未完了だよ。`:`公式出展者一覧から更新した${shops.length}店舗を収録。`;
   document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>changeView(b.dataset.view));
   $('dayTabs').onclick=e=>{const b=e.target.closest('[data-day]');if(b)switchDay(b.dataset.day)};

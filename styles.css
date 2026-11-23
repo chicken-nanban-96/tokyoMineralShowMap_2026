@@ -125,7 +125,7 @@ main{padding:9px 10px 22px}
 .dayPill.dayFri{background:#fff0d7;color:#865720}
 .dayPill.daySat{background:#ede9fb;color:#574493}
 
-/* --- 池袋ショー：浅草版と同じ操作UIの上に画像マップを配置 --- */
+/* --- 池袋ショー：浅草版と同じ操作UI・ブース直描画 --- */
 .compactHeader{padding:13px 15px;background:linear-gradient(110deg,#173f48,#2b6263)}
 .compactHeader h1{font-size:20px;margin:0}
 .mapControls{margin:0 0 9px}
@@ -144,7 +144,6 @@ main{padding:9px 10px 22px}
 .mapScroll{width:100%;max-height:min(76vh,850px);overflow:auto;position:relative;background:white;border:1px solid #c6dadc;border-radius:12px;overscroll-behavior:contain;touch-action:pan-x pan-y}
 .mapCanvas{display:block;position:relative;line-height:0;user-select:none;-webkit-user-select:none;max-width:none}
 .mapCanvas img{display:block;width:100%;height:auto;max-width:none;pointer-events:none}
-#hotspotLayer,
 #hotspotLayer{z-index:2}
 .hotspot{position:absolute;transform:translate(-50%,-50%);border:2px solid transparent;background:transparent;border-radius:2px;padding:0;pointer-events:auto;display:block;overflow:visible;touch-action:manipulation;color:transparent;min-width:5px;min-height:5px;box-shadow:none}
 .hotspot.hotspotFav{border-color:#e99419;background:#ffd28a55;box-shadow:0 0 0 1px #b96c02,0 0 6px #e5902355;z-index:2}
@@ -195,3 +194,6 @@ main{padding:9px 10px 22px}
 .tileRank circle{fill:#e08a1e;stroke:white;stroke-width:1}
 .tileRank text{fill:white;stroke:none;pointer-events:none;font-weight:850}
 .swatchMapped{background:#e1f0ed;border:1px solid #729499}
+
+/* v11: 位置が地図に登録されていない店舗では、位置表示を操作できない。 */
+.actions #showOnMapBtn:disabled{background:#e6ebeb;color:#8a989b;border-color:#d0d9d9;opacity:.65;cursor:not-allowed;box-shadow:none}

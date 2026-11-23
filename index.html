@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="池袋ショーマップ">
 <title>池袋ショー マイマップ</title>
-<link rel="stylesheet" href="./styles.css?v=10">
+<link rel="stylesheet" href="./styles.css?v=11">
 </head>
 <body>
 <header class="compactHeader"><h1>💎 池袋ショー マイマップ</h1></header>
@@ -31,7 +31,7 @@
       <button id="zoomFit" type="button">全体</button>
     </div>
     <div id="mapScroll" class="mapScroll"><div id="mapCanvas" class="mapCanvas"><div id="hotspotLayer" aria-label="ブース配置図"></div></div></div>
-    <p id="mapHint" class="hint">色の付いたブースを押すとお店の詳細が開くよ。</p>
+    <p id="mapHint" class="hint">ブースを押すと店舗の詳細が開くよ。</p>
   </section>
   <section id="listPanel" class="hidden"><div id="shopList" class="entries"></div></section>
   <details class="mapLegend" id="mapLegend">
@@ -61,8 +61,6 @@
       <p>サンシャインシティ文化会館 2・3・4階</p>
       <p id="coverageBanner" class="infoNote">出展者データを読み込んでいるよ。</p>
       <p id="hotspotStatus" class="infoNote"></p>
-      <p id="dataStatus" class="small muted"></p>
-      <p>2階の13〜97番は位置対応が未確認なので、地図上の色付けとタップは未対応。未登録の店舗は「位置情報未登録」と表示するよ。</p>
       <p><a id="officialMap" target="_blank" rel="noopener">公式配置図（位置確認用）</a></p>
       <p><a href="https://www.tokyomineralshow.com/exhibitor/" target="_blank" rel="noopener">公式出展者一覧</a> ／ <a href="https://www.tokyomineralshow.com/floormap/" target="_blank" rel="noopener">公式フロアマップ一覧</a></p>
     </div>
@@ -72,7 +70,6 @@
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shopName">
     <div class="sheethead"><h2 id="shopName"></h2><button id="closeBtn" class="x" type="button" aria-label="閉じる">×</button></div>
     <div id="shopLocation" class="place"></div>
-    <div id="visitDays" class="extra"></div>
     <div class="visitOrderBox">
       <label for="orderInput">🔢 訪問順（1〜999）</label>
       <div class="visitOrderLine"><input id="orderInput" type="number" min="1" max="999" step="1" inputmode="numeric" placeholder="例：1"><p>数字を保存すると、自動でお気に入りにも登録するよ。</p></div>
@@ -85,6 +82,6 @@
   </div>
 </div>
 <div id="toast" class="toast hidden" role="status"></div>
-<script src="./app.js?v=10" defer></script>
+<script src="./app.js?v=11" defer></script>
 </body>
 </html>
