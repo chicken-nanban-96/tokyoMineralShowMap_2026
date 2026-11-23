@@ -91,28 +91,29 @@ function venueDrawing(){
  // ブースの塗り分けは同じrect要素のclassで行うため、画像への色重ねは不要。
  const base=(path,fill)=>`<path class="venueOutline" d="${path}" fill="${fill}"/>`;
  const text=(x,y,label,size=12,cls='venueLabel')=>`<text class="${cls}" x="${x}" y="${y}" font-size="${size}">${esc(label)}</text>`;
- const spot=(x,y,w,h,label,cls='venueBlock')=>`<g><rect class="${cls}" x="${x}" y="${y}" width="${w}" height="${h}" rx="1.2"/>${label?text(x+w/2,y+h/2+3,label,Math.min(10,h*.3),'venueBlockText'):''}</g>`;
+ const spot=(x,y,w,h,label,cls='venueBlock')=>{
+   // 細長い案内欄の文字は縦方向に配置。周りの番号や通路へはみ出さない。
+   const cx=x+w/2,cy=y+h/2,vertical=Boolean(label&&h>w*1.5);
+   const labelSize=vertical?Math.min(9,w*.34,h/(label.length*.9)):Math.min(10,h*.28,w/(Math.max(2,label.length)*.95));
+   const labelSvg=label?(vertical
+    ?`<text class="venueBlockText" transform="translate(${cx} ${cy}) rotate(-90)" text-anchor="middle" dominant-baseline="middle" font-size="${labelSize}">${esc(label)}</text>`
+    :`<text class="venueBlockText" x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="middle" font-size="${labelSize}">${esc(label)}</text>`):'';
+   return `<g><rect class="${cls}" x="${x}" y="${y}" width="${w}" height="${h}" rx="1.2"/>${labelSvg}</g>`;
+ };
  if(floor==='2'){
-   const blocks=[];
-   // 店舗位置と照合できない13〜97番は、押せない薄色の参考区画として示す。
-   // 数字を割り当てないことで、誤ったブースへの位置案内を防ぐ。
-   for(let r=0;r<9;r++)for(let c=0;c<5;c++)blocks.push(spot(151+c*24.4,760+r*21.0,23,18,'','venueUnmapped'));
-   for(let r=0;r<10;r++)for(let c=0;c<4;c++)blocks.push(spot(318+c*25.2,759+r*18.5,24,16,'','venueUnmapped'));
    return `<g class="venueScenery">
-     ${base('M110 84 H332 V58 H503 V988 H345 V953 H87 V741 H179 V715 H273 V487 H110 Z','#e7f2e2')}
+     ${base('M105 76 H332 V58 H503 V988 H345 V962 H85 V741 H179 V715 H273 V487 H105 Z','#e7f2e2')}
      <path class="venueDash" d="M485 50 H525 V991 H505 M94 738 H182 M272 437 H522"/>
      ${text(25,80,'2F',50,'venueFloorNo')}${text(97,70,'第1会場',21,'venueTitle')}
      ${spot(248,497,26,91,'メインショップ','venueInfo')}${spot(249,630,27,85,'受付','venueInfo')}
      ${text(160,624,'入口',25,'venueEntrance')}${text(81,465,'出口',15,'venueExit')}${text(183,735,'出口',12,'venueExit')}
      ${text(45,482,'階段',12,'venueStairs')}${text(28,576,'1F',18,'venueStairs')}
      ${text(519,320,'L',18,'venueArea')}${text(518,597,'C',18,'venueArea')}${text(518,880,'R',18,'venueArea')}
-     ${blocks.join('')}
-     ${text(154,749,'13〜57 位置確認中',9,'venueUnmappedLabel')}${text(318,750,'58〜97 位置確認中',9,'venueUnmappedLabel')}
    </g>`;
  }
  if(floor==='3'){
    return `<g class="venueScenery">
-     ${base('M106 80 H505 V366 L458 400 V540 L505 573 V956 H177 V573 H107 V365 H177 V80 Z','#e3eafa')}
+     ${base('M105 78 H505 V366 L458 400 V540 L505 573 V958 H176 V574 H105 Z','#e3eafa')}
      ${text(25,77,'3F',50,'venueFloorNo')}${text(98,68,'第2会場',21,'venueTitle')}
      ${spot(316,422,115,111,'特別展示','venueInfo')}${spot(147,571,31,93,'宝石の魅力','venueInfo')}${spot(147,700,31,112,'ライヴ','venueInfo')}
      ${text(68,541,'出入口',17,'venueEntrance')}${text(32,457,'階段',13,'venueStairs')}
@@ -253,7 +254,7 @@ async function importRecords(){
 }
 async function start(){
  try{
-  const [s,m]=await Promise.all([fetch('./shops.json',{cache:'no-store'}),fetch('./map.json?v=14',{cache:'no-store'})]);
+  const [s,m]=await Promise.all([fetch('./shops.json',{cache:'no-store'}),fetch('./map.json?v=15',{cache:'no-store'})]);
   if(!s.ok||!m.ok)throw Error('shops.json または map.json が読み込めません。配置を確認してください。');
   [shopData,mapData]=await Promise.all([s.json(),m.json()]);
   if(!Array.isArray(shopData.shops)||!Array.isArray(mapData.floors))throw Error('JSON形式が正しくないよ。');
