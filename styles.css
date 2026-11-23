@@ -198,22 +198,27 @@ main{padding:9px 10px 22px}
 /* v11: 位置が地図に登録されていない店舗では、位置表示を操作できない。 */
 .actions #showOnMapBtn:disabled{background:#e6ebeb;color:#8a989b;border-color:#d0d9d9;opacity:.65;cursor:not-allowed;box-shadow:none}
 
-/* v12: official floor plan context with a single shared SVG coordinate system. */
-.mapCanvas{background:#fff;overflow:visible}
-#floorMapImage{position:absolute;left:0;top:0;width:100%;height:100%;max-width:none;object-fit:fill;pointer-events:none;display:block}
-#hotspotLayer{position:absolute;inset:0;z-index:2}
-.floorSVG{width:100%;height:100%;display:block;overflow:hidden}
-.fallbackBG{display:none;fill:#fff}
-.boothSVG .tileBody{fill:transparent;stroke:transparent;stroke-width:0;vector-effect:non-scaling-stroke;pointer-events:all}
-.boothSVG .tileFallbackCode{display:none;pointer-events:none;font-family:system-ui,sans-serif;font-weight:650}
-.boothSVG.tileHit .tileBody{fill:#a8f34a80;stroke:#378b16;stroke-width:2.4;filter:drop-shadow(0px 0px 2px #77bc35)}
-.boothSVG.tileFav:not(.tileHit) .tileBody{fill:#ffbc3a40;stroke:#e28b08;stroke-width:2.7}
-.boothSVG.tileFav.tileHit .tileBody{fill:#b6f75a8a;stroke:#de8100;stroke-width:2.7}
-.boothSVG.tileVisited:not(.tileHit){opacity:.75}
-.boothSVG.tileProvisional .tileBody{stroke-dasharray:2 2}
-.boothSVG:focus .tileBody{stroke:#175984;stroke-width:2.2}
-.officialImageFailed .fallbackBG{display:block}
-.officialImageFailed .boothSVG .tileBody{stroke:#8aa8ac;stroke-width:.7;fill:#e0efe9}
-.officialImageFailed .boothSVG .tileFallbackCode{display:block;fill:#28434b}
-.officialImageFailed .boothSVG.tileHit .tileBody{fill:#b6f961;stroke:#398813;stroke-width:2.4}
-.officialImageFailed .boothSVG.tileFav .tileBody{fill:#fff1b7;stroke:#e38302;stroke-width:2.4}
+/* v13: 浅草版と同じ一体型SVG。公式JPEGの重ね表示は廃止。 */
+.mapCanvas{background:#fff}
+.floorSVG{display:block;width:100%;height:100%;overflow:hidden}
+.venueOutline{stroke:#47585b;stroke-width:2.2;stroke-linejoin:round}
+.venueDash{fill:none;stroke:#78aa48;stroke-width:1.5;stroke-dasharray:3 3;opacity:.8}
+.venueLabel,.venueBlockText{fill:#435158;font-family:system-ui,sans-serif;font-weight:700;text-anchor:middle;pointer-events:none}
+.venueBlock{fill:#f2eeed;stroke:#9d9d9d;stroke-width:.9}
+.venueInfo{fill:#cde3eb;stroke:#5b90a5;stroke-width:1}
+.venueFloorNo{fill:#2584a2;font-weight:850;font-family:system-ui,sans-serif;pointer-events:none}
+.venueTitle{fill:#20363b;font-weight:850;font-family:system-ui,sans-serif;pointer-events:none}
+.venueEntrance{fill:#df0b84;font-weight:900;font-family:system-ui,sans-serif;pointer-events:none}
+.venueExit{fill:#df0b84;font-weight:800;font-family:system-ui,sans-serif;pointer-events:none}
+.venueStairs{fill:#777;font-family:system-ui,sans-serif;pointer-events:none}
+.venueArea{fill:#327e74;font-weight:800;font-family:system-ui,sans-serif;pointer-events:none}
+.venueUnmapped{fill:#fff;stroke:#a6b5b2;stroke-width:.6;pointer-events:none;opacity:.7}
+.venueUnmappedLabel{fill:#526365;font-family:system-ui,sans-serif;text-anchor:start;pointer-events:none}
+.boothSVG{cursor:pointer}
+.boothSVG .tileBody{fill:#e6efed;stroke:#758d90;stroke-width:.85;vector-effect:non-scaling-stroke;pointer-events:all}
+.boothSVG .tileFallbackCode{display:block;fill:#223f47;pointer-events:none;font-family:system-ui,sans-serif;font-weight:700}
+.boothSVG.noShop .tileBody{fill:#edf1ef;stroke:#99aaa9}
+.boothSVG.tileHit .tileBody{fill:#b7f96b;stroke:#338319;stroke-width:2.4;filter:none}
+.boothSVG.tileFav:not(.tileHit) .tileBody{fill:#ffefbd;stroke:#e18708;stroke-width:2.5}
+.boothSVG.tileFav.tileHit .tileBody{fill:#c8f873;stroke:#dc7805;stroke-width:2.6}
+.boothSVG.tileVisited:not(.tileHit){opacity:.66}

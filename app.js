@@ -85,6 +85,49 @@ function renderMap(){
  $('mapHint').classList.add('hidden');
  applyZoom();renderHotspots();renderQuickResults();
 }
+
+function venueDrawing(){
+ // 会場の外形・通路などもブースと同じSVG内に図形として描画する。
+ // ブースの塗り分けは同じrect要素のclassで行うため、画像への色重ねは不要。
+ const base=(path,fill)=>`<path class="venueOutline" d="${path}" fill="${fill}"/>`;
+ const text=(x,y,label,size=12,cls='venueLabel')=>`<text class="${cls}" x="${x}" y="${y}" font-size="${size}">${esc(label)}</text>`;
+ const spot=(x,y,w,h,label,cls='venueBlock')=>`<g><rect class="${cls}" x="${x}" y="${y}" width="${w}" height="${h}" rx="1.2"/>${label?text(x+w/2,y+h/2+3,label,Math.min(10,h*.3),'venueBlockText'):''}</g>`;
+ if(floor==='2'){
+   const blocks=[];
+   // 店舗位置と照合できない13〜97番は、押せない薄色の参考区画として示す。
+   // 数字を割り当てないことで、誤ったブースへの位置案内を防ぐ。
+   for(let r=0;r<9;r++)for(let c=0;c<5;c++)blocks.push(spot(151+c*24.4,760+r*21.0,23,18,'','venueUnmapped'));
+   for(let r=0;r<10;r++)for(let c=0;c<4;c++)blocks.push(spot(318+c*25.2,759+r*18.5,24,16,'','venueUnmapped'));
+   return `<g class="venueScenery">
+     ${base('M110 84 H332 V58 H503 V988 H345 V953 H87 V741 H179 V715 H273 V487 H110 Z','#e7f2e2')}
+     <path class="venueDash" d="M485 50 H525 V991 H505 M94 738 H182 M272 437 H522"/>
+     ${text(25,80,'2F',50,'venueFloorNo')}${text(97,70,'第1会場',21,'venueTitle')}
+     ${spot(248,497,26,91,'メインショップ','venueInfo')}${spot(249,630,27,85,'受付','venueInfo')}
+     ${text(160,624,'入口',25,'venueEntrance')}${text(81,465,'出口',15,'venueExit')}${text(183,735,'出口',12,'venueExit')}
+     ${text(45,482,'階段',12,'venueStairs')}${text(28,576,'1F',18,'venueStairs')}
+     ${text(519,320,'L',18,'venueArea')}${text(518,597,'C',18,'venueArea')}${text(518,880,'R',18,'venueArea')}
+     ${blocks.join('')}
+     ${text(154,749,'13〜57 位置確認中',9,'venueUnmappedLabel')}${text(318,750,'58〜97 位置確認中',9,'venueUnmappedLabel')}
+   </g>`;
+ }
+ if(floor==='3'){
+   return `<g class="venueScenery">
+     ${base('M106 80 H505 V366 L458 400 V540 L505 573 V956 H177 V573 H107 V365 H177 V80 Z','#e3eafa')}
+     ${text(25,77,'3F',50,'venueFloorNo')}${text(98,68,'第2会場',21,'venueTitle')}
+     ${spot(316,422,115,111,'特別展示','venueInfo')}${spot(147,571,31,93,'宝石の魅力','venueInfo')}${spot(147,700,31,112,'ライヴ','venueInfo')}
+     ${text(68,541,'出入口',17,'venueEntrance')}${text(32,457,'階段',13,'venueStairs')}
+     ${text(515,262,'L',18,'venueArea')}${text(516,733,'R',18,'venueArea')}
+   </g>`;
+ }
+ return `<g class="venueScenery">
+   ${base('M172 100 H754 V762 L688 812 H246 L172 765 Z','#f8e4d4')}
+   <path class="venueDash" d="M457 89 V960"/>
+   ${text(48,104,'4F',61,'venueFloorNo')}${text(136,86,'第3会場',27,'venueTitle')}
+   ${text(290,882,'入口',34,'venueEntrance')}${text(568,876,'出口',32,'venueExit')}
+   ${text(86,699,'階段',18,'venueStairs')}${text(308,958,'L',19,'venueArea')}${text(553,958,'R',19,'venueArea')}
+ </g>`;
+}
+
 function renderHotspots(){
  const layer=$('hotspotLayer');if(!layer)return;
  const m=floorMeta(),W=m.imageSize[0],H=m.imageSize[1];
@@ -114,24 +157,9 @@ function renderHotspots(){
   // 公式図と操作領域を、同一のSVG座標系に配置する。ズーム時も伸縮率が一致。
   return `<g class="${cls}" data-hotspot="${esc(h.code)}" role="button" tabindex="0" aria-label="${esc(tip)}"><title>${esc(tip)}</title><rect class="tileBody" x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${ww.toFixed(2)}" height="${hh.toFixed(2)}" rx="${rx.toFixed(1)}"/><text class="tileFallbackCode" x="${cx.toFixed(2)}" y="${(cy+fz*.34).toFixed(2)}" text-anchor="middle" font-size="${fz.toFixed(2)}">${esc(h.code)}</text>${n?`<g class="tileRank"><circle cx="${(x+3).toFixed(1)}" cy="${(y+2).toFixed(1)}" r="6.2"/><text x="${(x+3).toFixed(1)}" y="${(y+4.8).toFixed(1)}" text-anchor="middle" font-size="8">${n}</text></g>`:''}</g>`;
  }).join('');
- // 背景は会場外形・通路・出入口・未登録区画も載った公式図。
- // 背景と色付け用矩形は同じSVG viewBox上なので、別レイヤーの位置・拡大率ずれを防ぐ。
- layer.innerHTML=`<svg class="floorSVG" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-label="${floor}階 ブース配置図"><rect class="fallbackBG" x="0" y="0" width="${W}" height="${H}"/><g class="boothGroup">${tiles}</g></svg>`;
- // SVG <image> の互換性が低いSafariでは、同じ座標枠にHTML <img>を表示する。
- // 実際の図が読めなかったときだけ簡易表示に切り替える。
- const canvas=$('mapCanvas');
- let img=$('floorMapImage');
- if(!img){img=document.createElement('img');img.id='floorMapImage';img.alt='公式 '+floor+'階フロアマップ';canvas.insertBefore(img,layer)}
- if(img.dataset.src!==m.image){
-  // 通信中も地図が真っ白にならないよう、簡易図を仮表示する。
-  canvas.classList.add('officialImageFailed');
-  img.style.visibility='hidden';
-  img.onload=()=>{if(img.dataset.src===m.image){img.style.visibility='visible';canvas.classList.remove('officialImageFailed');$('mapHint').classList.add('hidden')}};
-  img.onerror=()=>{if(img.dataset.src===m.image){img.style.visibility='hidden';canvas.classList.add('officialImageFailed');$('mapHint').textContent='公式配置図を読み込めないため、簡易表示に切り替えました。';$('mapHint').classList.remove('hidden')}};
-  img.dataset.src=m.image;
-  img.src=m.image;
- }
- $('hotspotStatus').textContent=`${floor}階：位置登録 ${boothSpots().length}区画、店舗と一致 ${located}区画${q?`、強調表示 ${highlighted}区画`:''}。${floor==='2'?'13〜97番など一部ブースは位置情報が未登録です。':'位置表示は登録済みのブースのみ対応しています。'}`;
+ // 四角と色付けは同一のSVG要素。外部画像を重ねない。
+ layer.innerHTML=`<svg class="floorSVG" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-label="${floor}階 ブース配置図"><rect x="0" y="0" width="${W}" height="${H}" fill="#fff"/>${venueDrawing()}<g class="boothGroup">${tiles}</g></svg>`;
+ $('hotspotStatus').textContent=`${floor}階：位置データ登録 ${boothSpots().length}区画、店舗一致 ${located}区画${q?`、強調 ${highlighted}区画`:''}。${floor==='2'?'13〜97番は位置未確認です。':''}`;
 }
 
 function openShop(shop){
@@ -226,7 +254,7 @@ async function importRecords(){
 async function start(){
  try{
   const [s,m]=await Promise.all([fetch('./shops.json',{cache:'no-store'}),fetch('./map.json',{cache:'no-store'})]);
-  if(!s.ok||!m.ok)throw Error('shops.json / map.json が見つからないよ。5ファイルが同じ階層にあるか確認してね。');
+  if(!s.ok||!m.ok)throw Error('shops.json または map.json が読み込めません。配置を確認してください。');
   [shopData,mapData]=await Promise.all([s.json(),m.json()]);
   if(!Array.isArray(shopData.shops)||!Array.isArray(mapData.floors))throw Error('JSON形式が正しくないよ。');
   shops=shopData.shops;days=shopData.dates;floors=mapData.floors;day=days[0].id;floor=floors[0].id;
