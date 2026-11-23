@@ -159,7 +159,7 @@ function renderHotspots(){
  }).join('');
  // 四角と色付けは同一のSVG要素。外部画像を重ねない。
  layer.innerHTML=`<svg class="floorSVG" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-label="${floor}階 ブース配置図"><rect x="0" y="0" width="${W}" height="${H}" fill="#fff"/>${venueDrawing()}<g class="boothGroup">${tiles}</g></svg>`;
- $('hotspotStatus').textContent=`${floor}階：位置データ登録 ${boothSpots().length}区画、店舗一致 ${located}区画${q?`、強調 ${highlighted}区画`:''}。${floor==='2'?'13〜97番は位置未確認です。':''}`;
+ $('hotspotStatus').textContent=`${floor}階：位置データ登録 ${boothSpots().length}区画、店舗一致 ${located}区画${q?`、強調 ${highlighted}区画`:''}。${floor==='2'?'13〜97番はブースと店舗の位置対応が未登録です。':''}`;
 }
 
 function openShop(shop){
@@ -253,7 +253,7 @@ async function importRecords(){
 }
 async function start(){
  try{
-  const [s,m]=await Promise.all([fetch('./shops.json',{cache:'no-store'}),fetch('./map.json',{cache:'no-store'})]);
+  const [s,m]=await Promise.all([fetch('./shops.json',{cache:'no-store'}),fetch('./map.json?v=14',{cache:'no-store'})]);
   if(!s.ok||!m.ok)throw Error('shops.json または map.json が読み込めません。配置を確認してください。');
   [shopData,mapData]=await Promise.all([s.json(),m.json()]);
   if(!Array.isArray(shopData.shops)||!Array.isArray(mapData.floors))throw Error('JSON形式が正しくないよ。');

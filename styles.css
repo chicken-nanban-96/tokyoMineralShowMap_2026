@@ -222,3 +222,10 @@ main{padding:9px 10px 22px}
 .boothSVG.tileFav:not(.tileHit) .tileBody{fill:#ffefbd;stroke:#e18708;stroke-width:2.5}
 .boothSVG.tileFav.tileHit .tileBody{fill:#c8f873;stroke:#dc7805;stroke-width:2.6}
 .boothSVG.tileVisited:not(.tileHit){opacity:.66}
+
+/* v14 Cache refresh and Asakusa-style single SVG map stage. */
+#mapCanvas {background: #fff!important;}
+#hotspotLayer {position:absolute;inset:0;width:100%;height:100%;pointer-events:auto;}
+#hotspotLayer .floorSVG {width:100%;height:100%;display:block;overflow:visible;}
+#hotspotLayer .boothSVG .tileBody {pointer-events:all;}
+#hotspotLayer .boothSVG .tileFallbackCode {pointer-events:none;}
