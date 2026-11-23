@@ -112,11 +112,20 @@ function venueDrawing(){
    </g>`;
  }
  if(floor==='3'){
+   // 2026公式図に準拠: 左上の外壁はB17列の下で右へ折れ、
+   // B16の右側・階段からの動線の先で壁が切れて出入口になる。
+   // 出入口の矢印は左から右へ向かう。ブースと案内は同じSVGに描く。
    return `<g class="venueScenery">
-     ${base('M105 78 H505 V366 L458 400 V540 L505 573 V958 H176 V574 H105 Z','#e3eafa')}
+     <path d="M105 78 H505 V366 L458 400 V540 L505 573 V958 H176 V365 H105 Z" fill="#e3eafa"/>
+     <path class="venueOutline" d="M105 78 H505 V366 L458 400 V540 L505 573 V958 H176 V577 M176 514 V365 H105 V78" fill="none"/>
      ${text(25,77,'3F',50,'venueFloorNo')}${text(98,68,'第2会場',21,'venueTitle')}
-     ${spot(316,422,115,111,'特別展示','venueInfo')}${spot(147,571,31,93,'宝石の魅力','venueInfo')}${spot(147,700,31,112,'ライヴ','venueInfo')}
-     ${text(68,541,'出入口',17,'venueEntrance')}${text(32,457,'階段',13,'venueStairs')}
+     ${spot(316,422,115,111,'特別展示','venueInfo')}${spot(146,571,30,93,'宝石の魅力','venueInfo')}${spot(146,700,30,112,'ライヴ','venueInfo')}
+     <g class="thirdFloorEntrance" pointer-events="none">
+       <polygon points="66,523 133,523 133,515 176,546 133,577 133,569 66,569" fill="#dc1288"/>
+       <text x="99" y="550" font-size="20" font-weight="900" fill="#fff" text-anchor="middle" font-family="system-ui,sans-serif">出入口</text>
+       <text x="99" y="562" font-size="8.5" font-weight="800" fill="#fff" text-anchor="middle" font-family="system-ui,sans-serif">ENTRANCE</text>
+     </g>
+     ${text(44,428,'階段',13,'venueStairs')}
      ${text(515,262,'L',18,'venueArea')}${text(516,733,'R',18,'venueArea')}
    </g>`;
  }
@@ -254,7 +263,7 @@ async function importRecords(){
 }
 async function start(){
  try{
-  const [s,m]=await Promise.all([fetch('./shops.json',{cache:'no-store'}),fetch('./map.json?v=15',{cache:'no-store'})]);
+  const [s,m]=await Promise.all([fetch('./shops.json',{cache:'no-store'}),fetch('./map.json?v=16',{cache:'no-store'})]);
   if(!s.ok||!m.ok)throw Error('shops.json または map.json が読み込めません。配置を確認してください。');
   [shopData,mapData]=await Promise.all([s.json(),m.json()]);
   if(!Array.isArray(shopData.shops)||!Array.isArray(mapData.floors))throw Error('JSON形式が正しくないよ。');
